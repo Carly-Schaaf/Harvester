@@ -1,0 +1,36 @@
+{
+  "name": "mern",
+  "version": "1.0.0",
+  "description": "mern stack project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Carly-Schaaf/mern.git"
+  },
+  "keywords": [
+    "mern"
+  ],
+  "author": "carly schaaf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Carly-Schaaf/mern/issues"
+  },
+  "homepage": "https://github.com/Carly-Schaaf/mern#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.10",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
