@@ -27,12 +27,13 @@ const seedReviews = () => {
                 
             })
             .then(randomUser => {
-                Produce.countDocuments()
+                return Produce.countDocuments()
                 .then((count) => {
                     random = Math.floor(Math.random() * count)
-                    Produce.findOne({ user: { $ne: randomUser.id } })
+                    return Produce.findOne({ user: { $ne: randomUser.id } })
                     .skip(random)
                     .then(produce => {
+                        if (!produce) {return null;}
                         return new Review({
                         "public?": faker.random.boolean(),
                         accessible: nums[index % nums.length],
@@ -46,7 +47,8 @@ const seedReviews = () => {
                         
                     }, (err) => console.log(err))
                     .then(review => {
-                        review.save()
+                        if (!review) {return null;}
+                        return review.save()
                         .then((review) => {
                             console.log(`Success ${index}: ${review} was created`);
                             if (index === (produces.length - 1)) {
@@ -54,7 +56,7 @@ const seedReviews = () => {
                             console.log(`Review_${index} was unable to save due to: ${err}`)
                         })
                     }, (err) => console.log(err))
-                }, (err) => console.log("uh oh"))
+                }, (err) => console.log(err))
             });
         }
     })

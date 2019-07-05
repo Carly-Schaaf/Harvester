@@ -155,7 +155,7 @@ const produces = [
 
 const seedProduces = () => {
     const nums = [1,2,3,4,5];
-    Produce.deleteMany({}).then((res) => console.log(`Deleted ${res.deletedCount} produces.`));
+    // Produce.deleteMany({}).then((res) => console.log(`Deleted ${res.deletedCount} produces.`));
     return new Promise((res, rej) => {
         let lat = 37.7576792;
         let lng = -122.5078118;
@@ -178,7 +178,6 @@ const seedProduces = () => {
 
                 // Again query all users but only fetch one offset by our random #
                 User.findOne().skip(random).exec((err, randomUser) => {
-                    console.log(randomUser);
                     const newProduce = new Produce({
                         "public?": faker.random.boolean(),
                         accessible: nums[index % nums.length],
