@@ -27,7 +27,6 @@ const UserSchema = new Schema({
     },
     produces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'produces' }],
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'reviews' }],
-
 })
 
 module.exports = User = mongoose.model('users', UserSchema);

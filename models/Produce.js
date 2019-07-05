@@ -46,7 +46,8 @@ const ProduceSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'reviews' }],
 });
 
 module.exports = mongoose.model('produces', ProduceSchema);

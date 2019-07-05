@@ -155,7 +155,7 @@ const produces = [
 
 const seedProduces = () => {
     const nums = [1,2,3,4,5];
-    // Produce.deleteMany({}).then((res) => console.log(`Deleted ${res.deletedCount} produces.`));
+    Produce.deleteMany({}).then((res) => console.log(`Deleted ${res.deletedCount} produces.`));
     return new Promise((res, rej) => {
         let lat = 37.7576792;
         let lng = -122.5078118;
@@ -193,10 +193,14 @@ const seedProduces = () => {
                         }
                     })
                     newProduce.save().then((produce) => {
-                        console.log(`Success ${index}: ${produce} was created`);
-                        if (index === (produces.length - 1)) {
-                            return res("All produce was created");
-                        }
+                        randomUser.produces.push(produce._id);
+                        randomUser.save()
+                        .then(() => {
+                            console.log(`Success ${index}: ${produce} was created`);
+                            if (index === (produces.length - 1)) {
+                                return res("All produce was created");
+                            }
+                        }, err => console.log(err))
                     }, (err) => {
                         console.log(`Produce_${index} was unable to save due to: ${err}`)
                     })
