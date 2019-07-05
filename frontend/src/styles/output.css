@@ -1,0 +1,105 @@
+html, body, header, nav, h1, a,
+ul, li, strong, main, button, i,
+section, img, div, h2, p, form,
+fieldset, label, input, textarea,
+span, article, footer, time, small {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-family: "Fredericka the Great", cursive;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  box-sizing: border-box;
+  background: transparent;
+  -webkit-font-smoothing: antialiased; }
+
+ul {
+  list-style: none; }
+
+li {
+  list-style: none; }
+
+img {
+  display: block;
+  width: 100%;
+  height: auto; }
+
+input[type="password"],
+input[type="email"],
+input[type="text"],
+input[type="submit"],
+textarea,
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; }
+
+button,
+input[type="submit"] {
+  cursor: pointer; }
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both; }
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+footer {
+  width: 100vw;
+  height: 200px;
+  text-align: center; }
+
+.logo {
+  height: 50px;
+  width: 50px; }
+
+.navbar {
+  padding: 25px 25px 25px 25px;
+  font-size: 40px; }
+
+button {
+  height: 13px;
+  width: 40px;
+  padding: 8px;
+  border: 2px solid burlywood;
+  border-radius: 5px;
+  box-sizing: content-box;
+  font-size: 13px;
+  margin-left: 10px;
+  text-align: center;
+  color: #054105; }
+
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column; }
+
+#map {
+  width: 50%;
+  height: 100%; }
+
+.map-container {
+  height: 100%;
+  margin: 50px 3% 50px 10%;
+  justify-content: space-evenly;
+  transition: align-items 500ms ease-in-out; }
+
+.search-field {
+  border-bottom: 1px solid burlywood;
+  width: 100%;
+  margin: 10px 5px 5px 0px; }
+
+.search-field:focus .map-container {
+  background: red; }
+  .search-field:focus .map-container .map-container {
+    align-items: flex-start;
+    background: red; }
+
+/*# sourceMappingURL=output.css.map */

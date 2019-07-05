@@ -1,0 +1,32 @@
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#map {
+    width: 50%;
+    height: 100%;
+}
+
+.map-container {
+    height: 100%;
+    margin: 50px 3% 50px 10%;
+    justify-content: space-evenly;
+    transition: align-items 500ms ease-in-out;
+}
+
+.search-field {
+  border-bottom: 1px solid burlywood;
+  width: 100%;
+  margin: 10px 5px 5px 0px;
+}
+
+.search-field:focus .map-container{
+      background: red;
+
+  .map-container {
+    align-items: flex-start;
+    background: red;
+  }
+}
