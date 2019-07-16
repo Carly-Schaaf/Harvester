@@ -7,10 +7,12 @@ const keys = require('../../config/keys');
 const passport = require('passport');
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
+const jwtDecode = require('jwt-decode');
 
-router.get('/current', passport.authenticate('jwt', {session: false, }), (req, res) => {
-    res.json({id: req.user.id,
-              username: req.user.username            
+router.get('/current', (req, res) => {
+    const user = jwtDecode(req.headers.authorization)
+    res.json({id: user.id,
+              username: user.username           
     });
 })
 

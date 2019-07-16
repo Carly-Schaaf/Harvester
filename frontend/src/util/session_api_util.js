@@ -12,6 +12,10 @@ export const signup = (userData) => {
     return axios.post('/api/users/register', userData)
 }
 
+export const current = () => {
+    return axios.get('/api/users/current')
+}
+
 export const login = (userData) => {
     return axios.post('/api/users/login', userData);
 }

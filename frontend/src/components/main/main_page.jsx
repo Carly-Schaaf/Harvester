@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { updateFilter } from '../../actions/filter_actions';
+import { fetchProduce } from '../../actions/produce_actions';
 import { connect } from 'react-redux';
 
 class MainPage extends React.Component {
@@ -15,6 +15,11 @@ class MainPage extends React.Component {
     }
 
     componentDidMount() {
+        const script = document.createElement("script");
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDpKLSBCs8PYuHiwXjTm8SBwV8zUTad32I";
+        script.type = "text/javascript";
+        document.head.appendChild(script);
+        
         this.getLocation();
     }
 
@@ -40,10 +45,12 @@ class MainPage extends React.Component {
         window.google.maps.event.addListener(this.map, 'idle', () => {
             const { north, south, east, west } = this.map.getBounds().toJSON();
             const bounds = {
-                northEast: { lat: north, lng: east },
-                southWest: { lat: south, lng: west }
+                north,
+                east,
+                south,
+                west
             };
-            this.props.updateFilter({bounds});
+            // this.props.fetchProduce({bounds});
         });
     }
 
@@ -55,6 +62,7 @@ class MainPage extends React.Component {
     render() {
         return(
             <div className="flex map-container">
+             
                 <div id="map">map</div>
                 <div>
                     <div>what are you searching for?</div>
@@ -73,7 +81,7 @@ const mstp = (state) => ({
 })
 
 const mdtp = (dispatch) => ({
-    updateFilter: (bounds) => (dispatch(updateFilter(bounds)))
+    fetchProduce: (bounds) => (dispatch(fetchProduce(bounds)))
 })
 
 export default connect(mstp, mdtp)(MainPage);

@@ -6,10 +6,23 @@ const passport = require('passport');
 const validateProduceInput = require('../../validation/produces');
 
 router.get('/', (req, res) => {
-    Produce.find()
-        .sort({ date: -1 })
-        .then(produces => res.json(produces))
-        .catch(err => res.status(404).json({msg: "No plants found"}))
+    const { north, east, south, west } = req.query;
+    debugger
+    Produce.find({loc: {
+        $geoIntersects: {
+            $geometry: {
+                type: "Polygon",
+                coordinates: [
+                    north, east, south, west
+                ]
+            }
+        }
+    }})
+    .then(produces => res.json(produces))
+    .catch(err => res.status(404).json({msg: "No plants found"}))
+    
+        // Produce.find({  < east && lng < north && lat > west && lng > south })
+        //     .sort({ date: -1 })
 })
 
 router.get('/user/:user_id', (req, res) => {
@@ -25,7 +38,6 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-    debugger
     const {errors, isValid} = validateProduceInput(req.body);
     if (!isValid) {
         return res.status(404).json(errors);
