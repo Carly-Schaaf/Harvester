@@ -1,0 +1,11 @@
+FROM node:11-alpine
+
+WORKDIR /usr/src/app
+
+ARG NODE_ENV=production
+
+COPY . /usr/src/app/ 
+
+RUN npm install && npm run frontend-install && npm run frontend-build
+
+CMD ["npm", "run", "start"]
