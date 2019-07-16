@@ -15,12 +15,23 @@ class MainPage extends React.Component {
     }
 
     componentDidMount() {
+        // const promise = new Promise((res, rej) => {
+        //     document.head.onchange((e) => {
+        //         debugger
+        //         if (window.google) {
+        //             res()
+        //         } else {
+        //             rej("hmm google is not defined")
+        //         }
+        //     })
+        // })
         const script = document.createElement("script");
         script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDpKLSBCs8PYuHiwXjTm8SBwV8zUTad32I";
         script.type = "text/javascript";
         document.head.appendChild(script);
-        
+        // promise.then(() => this.getLocation(), (res) => console.log(res));
         this.getLocation();
+    
     }
 
     getLocation() {
