@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const db = require("../config/keys.js").mongoURI;
 const Review = require('../models/Review');
 const User = require('../models/User');
-const Produce = require('../models/Produce');
+const Produce = require('../models/Produce')
 const produces = require('./produce_seeds');
 
 const seedReviews = () => {
@@ -35,7 +35,7 @@ const seedReviews = () => {
                     .then(produce => {
                         if (!produce) {return null;}
                         return new Review({
-                        "public?": faker.random.boolean(),
+                        public: faker.random.boolean(),
                         accessible: nums[index % nums.length],
                         ownerPermission: nums[index % nums.length],
                         quality: nums[index % nums.length],
@@ -43,13 +43,21 @@ const seedReviews = () => {
                         user: randomUser.id,
                         produce: produce.id,
                         comments: faker.lorem.sentence()
-                        });
+                        }).save();
                         
                     }, (err) => console.log(err))
                     .then(review => {
                         if (!review) {return null;}
-                        return review.save()
-                        .then((review) => {
+                        Produce.findById(review.produce)
+                        .then(produce => {
+                            produce.reviews.push(review.id);
+                            return produce.save()
+                        })
+                        .then(() => {
+                            randomUser.reviews.push(review.id);
+                            return randomUser.save();
+                        })
+                        .then(() => {
                             console.log(`Success ${index}: ${review} was created`);
                             if (index === (produces.length - 1)) {
                                 return res("All reviews were created");}}, (err) => {

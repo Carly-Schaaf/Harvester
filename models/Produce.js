@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ProduceSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'user',
         required: true
     },
     name: {
@@ -15,7 +15,7 @@ const ProduceSchema = new Schema({
         type: String,
         required: true
     },
-    "public?": {
+    public: {
         type: Boolean
     },
     accessible: {
@@ -50,4 +50,4 @@ const ProduceSchema = new Schema({
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'reviews' }],
 });
 
-module.exports = mongoose.model('produces', ProduceSchema);
+module.exports = mongoose.model('produce', ProduceSchema);

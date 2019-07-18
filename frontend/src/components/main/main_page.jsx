@@ -1,8 +1,10 @@
 import React from 'react'; 
 import { fetchProduce } from '../../actions/produce_actions';
 import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 
 class MainPage extends React.Component {
+    
     constructor(props) {
         super(props);
         this.search = this.props.location.search;
@@ -15,21 +17,11 @@ class MainPage extends React.Component {
     }
 
     componentDidMount() {
-        // const promise = new Promise((res, rej) => {
-        //     document.head.onchange((e) => {
-        //         debugger
-        //         if (window.google) {
-        //             res()
-        //         } else {
-        //             rej("hmm google is not defined")
-        //         }
-        //     })
-        // })
         const script = document.createElement("script");
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDpKLSBCs8PYuHiwXjTm8SBwV8zUTad32I";
+        const google = Cookies.get('google')
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${google}`;
         script.type = "text/javascript";
         document.head.appendChild(script);
-        // promise.then(() => this.getLocation(), (res) => console.log(res));
         this.getLocation();
     
     }
@@ -88,7 +80,6 @@ class MainPage extends React.Component {
 }
 
 const mstp = (state) => ({
-
 })
 
 const mdtp = (dispatch) => ({

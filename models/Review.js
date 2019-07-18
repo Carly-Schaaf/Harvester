@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 const ReviewSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'user',
         required: true
     },
     produce: {
         type: Schema.Types.ObjectId,
-        ref: 'produces',
+        ref: 'produce',
         required: true
     },
-    "public?": {
+    public: {
         type: Boolean
     },
     accessible: {
@@ -34,4 +34,4 @@ const ReviewSchema = new Schema({
     }
 })
 
-module.exports = Review = mongoose.model('reviews', ReviewSchema);
+module.exports = Review = mongoose.model('review', ReviewSchema);

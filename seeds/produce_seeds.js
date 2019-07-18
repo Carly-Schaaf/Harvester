@@ -1,8 +1,8 @@
 const faker = require('faker');
 const mongoose = require('mongoose');
 const db = require("../config/keys.js").mongoURI;
-const Produce = require('../models/Produce');
 const User = require('../models/User');
+const Produce = require('../models/Produce');
 
 const produces = [
     "Amaranth Leaves",
@@ -179,7 +179,7 @@ const seedProduces = () => {
                 // Again query all users but only fetch one offset by our random #
                 User.findOne().skip(random).exec((err, randomUser) => {
                     const newProduce = new Produce({
-                        "public?": faker.random.boolean(),
+                        public: faker.random.boolean(),
                         accessible: nums[index % nums.length],
                         ownerPermission: nums[index % nums.length],
                         quality: nums[index % nums.length],
