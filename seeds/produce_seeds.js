@@ -1,6 +1,4 @@
 const faker = require('faker');
-const mongoose = require('mongoose');
-const db = require("../config/keys.js").mongoURI;
 const User = require('../models/User');
 const Produce = require('../models/Produce');
 
@@ -153,32 +151,28 @@ const produces = [
     "Tangerine",
     "Watermelon"];
 
-const seedProduces = () => {
+module.exports = seedProduces = async () => {
     const nums = [1,2,3,4,5];
     Produce.deleteMany({}).then((res) => console.log(`Deleted ${res.deletedCount} produces.`));
-    return new Promise((res, rej) => {
-        let lat = 37.7576792;
-        let lng = -122.5078118;
+    return new Promise(async (res, rej) => {
+        let lat = 37.8715;
+        let lng = -122.27275;
         for (let index = 0; index < produces.length; index++) {
             if (index <= (produces.length/2)) {
-                lat -= .00005;
-                lng -= .00005;
+                lat -= .005;
+                lng -= .005;
             } else if (index === produces.length / 2) {
-                lat = 37.7576792;
-                lng = -122.5078118;
+                lat = 37.8715;
+                lng = -122.27275;
             } else {
-                lat += .00002;
-                lng += .00002;
+                lat += .002;
+                lng += .002;
             }
+           
+            var random = Math.floor(Math.random() * 10)
+            const randomUser = await User.findOne().skip(random)
 
-            User.countDocuments().exec((err, count) => {
-
-                // Get a random entry
-                var random = Math.floor(Math.random() * count)
-
-                // Again query all users but only fetch one offset by our random #
-                User.findOne().skip(random).exec((err, randomUser) => {
-                    const newProduce = new Produce({
+            const newProduce = await new Produce({
                         public: faker.random.boolean(),
                         accessible: nums[index % nums.length],
                         ownerPermission: nums[index % nums.length],
@@ -187,36 +181,23 @@ const seedProduces = () => {
                         name: produces[index],
                         user: randomUser._id,
                         type: "Produce",
-                        loc: {
-                            type: "Point",
-                            coordinates: [lat, lng]
-                        }
-                    })
-                    newProduce.save().then((produce) => {
-                        randomUser.produces.push(produce._id);
-                        randomUser.save()
-                        .then(() => {
-                            console.log(`Success ${index}: ${produce} was created`);
-                            if (index === (produces.length - 1)) {
-                                return res("All produce was created");
-                            }
-                        }, err => console.log(err))
-                    }, (err) => {
-                        console.log(`Produce_${index} was unable to save due to: ${err}`)
-                    })
-                        });
-                 })
-     
-        }
-    })
-}
-if (process.argv[1] === "/Users/carly/Desktop/mern/seeds/produce_seeds.js") {
-    mongoose.connect(db, { useNewUrlParser: true })
-        .then(() => console.log("Connected to MongoDB successfully"))
-        .catch(err => console.log(`${err}: Cannot connect to MongoDB`))
-        .then(() => seedProduces())
-        .then((res) => { console.log(`${res}, database connection is closing.`);
-            mongoose.connection.close() })
-}
+                        lat: lat,
+                        lng: lng
+                    });
 
-module.exports = produces;
+            await newProduce.save()
+                    .then((produce) => console.log(`Success: produce ${index} was created`),
+                    (err) => console.log(`Produce_${index} was unable to save due to: ${err}`))
+            await randomUser.produces.push(newProduce._id);
+            await randomUser.save()
+                    .then((user) => console.log(`Success: User ${user.username} was re-saved with more produce`),
+                    (err) => console.log(`User_${index} was unable to re-save due to: ${err}`))    
+            const numProduce = await Produce.count();
+            if (index >= (produces.length - 1) && numProduce >= (produces.length - 1)) {
+                return res("All produce successfully created");
+            } else if (index >= (produces.length - 1)) {
+                return rej(`All produce was not successfully created, only created ${numProduce} produce`);
+            }
+            }
+        }
+    )}
