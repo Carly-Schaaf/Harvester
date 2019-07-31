@@ -1,5 +1,7 @@
 $dark-color: rgb(204, 77, 3);
-$font: 'Fredericka the Great', cursive;
+$bold-font: 'Fredericka the Great', cursive;
+$clean-font: 'Roboto Condensed', sans-serif;
+
 // font-family: 'Fredericka the Great', cursive;
 // font-family: 'Permanent Marker', cursive;
 // font-family: 'Cookie', cursive;
@@ -15,12 +17,11 @@ span, article, footer, time, small {
   padding: 0;
   border: 0;
   outline: 0;
-  font-family: $font;
   color: inherit;
   text-align: inherit;
   text-decoration: inherit;
   vertical-align: inherit;
-  box-sizing: border-box;
+  box-sizing: content-box;
   background: transparent;
   -webkit-font-smoothing: antialiased;
 }
@@ -64,12 +65,34 @@ input[type="submit"] {
 
 .flex {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+}
+
+.top {
+  align-items: flex-start;
+}
+
+.left-start-row {
+  justify-content: flex-start;
+}
+
+.left-start {
+  align-items: flex-start;
+}
+
+.column {
+  flex-direction: column;
 }
 
 footer {
   width: 100vw;
   height: 200px;
   text-align: center;
+}
+
+.space-evenly {
+  justify-content: space-evenly;
+}
+.center {
+  justify-content: center;
 }

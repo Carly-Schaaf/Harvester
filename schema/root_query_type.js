@@ -1,11 +1,11 @@
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } = graphql;
+const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull, GraphQLFloat, GraphQLString } = graphql;
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
 const UserType = require('./user_type');
 const Produce = mongoose.model('produce');
 const ProduceType = require('./produce_type');
-const Review = mongoose.model('review');
+const Review = mongoose.model('reviews');
 const ReviewType = require('./review_type');
 
 const RootQuery = new GraphQLObjectType({
@@ -26,8 +26,14 @@ const RootQuery = new GraphQLObjectType({
         },
         produces: {
             type: new GraphQLList(ProduceType),
-            resolve() {
-                return Produce.find({})
+            args: { south: { type: GraphQLFloat },
+                    west: { type: GraphQLFloat },
+                    east: { type: GraphQLFloat },
+                    north: { type: GraphQLFloat },
+                    name: { type: GraphQLString }
+                },
+            resolve(parentValue, {south, west, east, north, name}) {
+                return Produce.findWithFilters({bounds: {south, west, east, north }, name})
             }
         },
         produce: {

@@ -158,15 +158,12 @@ module.exports = seedProduces = async () => {
         let lat = 37.8715;
         let lng = -122.27275;
         for (let index = 0; index < produces.length; index++) {
-            if (index <= (produces.length/2)) {
-                lat -= .005;
-                lng -= .005;
-            } else if (index === produces.length / 2) {
-                lat = 37.8715;
-                lng = -122.27275;
+            if (index % 2 === 0) {
+                lat -= Math.random() * .1;
+                lng += Math.random() * .1;
             } else {
-                lat += .002;
-                lng += .002;
+                lat += Math.random() * .1;
+                lng += Math.random() * .1;
             }
            
             var random = Math.floor(Math.random() * 10)

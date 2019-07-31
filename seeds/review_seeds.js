@@ -9,31 +9,31 @@ module.exports = seedReviews = async () => {
     await Review.deleteMany({}, (err, response) => { console.log(`Deleted ${response.deletedCount} reviews`)});
     return new Promise(async (res, rej) => {
         for (let index = 0; index <= 100; index++) {
-            let randomUserId;
-            let randomProduceId;
-            await User.aggregate(
-                [{ $sample: { size: 1 } }])
-            .then(userArr => {
-                    randomUserId = userArr[0][`_id`]})
-            .then(() => Produce.aggregate([{ $sample: { size: 1 } }]))
-            .then(produceArr => {
-                randomProduceId = produceArr[0][`_id`]})
-            .then(() => {
-                return new Review({
+
+            const randomUser = await User.findOne().skip(Math.floor(Math.random() * 10));
+            const randomProduce = await Produce.findOne().skip(Math.floor(Math.random() * 146));
+            
+            const review = new Review({
                     public: faker.random.boolean(),
                     accessible: nums[index % nums.length],
                     ownerPermission: nums[index % nums.length],
                     quality: nums[index % nums.length],
                     abundance: nums[index % nums.length],
-                    user: randomUserId,
-                    produce: randomProduceId,
+                    user: randomUser.id,
+                    produce: randomProduce.id,
                     comments: faker.lorem.sentence()
                 })
-            })
-            .then(review => {
-                    review.save()
-                    .then(review => {
+            await review.save()
+                    .then(async review => {
                             console.log(`Success review ${index} was saved`)
+                            await randomUser.reviews.push(review.id);
+                            await randomUser.save()
+                                .then((user) => console.log(`Success: User ${randomUser.username} was re-saved with this review`),
+                                    (err) => console.log(`${randomUser.username} was unable to re-save due to: ${err}`))    
+                            randomProduce.reviews.push(review.id)
+                            await randomProduce.save()
+                                .then((user) => console.log(`Success: Produce ${randomProduce.id} was re-saved with this review`),
+                                    (err) => console.log(`${randomProduce.id} was unable to re-save due to: ${err}`))  
                             Review.count()
                             .then(count => {
                                 if (count > 100) {
@@ -41,7 +41,6 @@ module.exports = seedReviews = async () => {
                                     }
                                 })
                             }, err => rej(err))
-                })
                         
                 }})
         }

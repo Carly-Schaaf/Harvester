@@ -1,17 +1,18 @@
 .main {
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+
 #map {
-    width: 50%;
+    width: 100%;
     height: 100%;
 }
 
 .map-container {
-    height: 100%;
-    margin: 50px 3% 50px 10%;
+    height: 500px;
+    width: 500px;
+    margin-top: 50px;
     justify-content: space-evenly;
     transition: align-items 500ms ease-in-out;
 }
@@ -29,4 +30,18 @@
     align-items: flex-start;
     background: red;
   }
+}
+
+.produce-list {
+  a, div, button {
+    font-family: $clean-font;
+  }
+  li {
+    list-style: circle;
+    margin-bottom: 10px;
+  }
+}
+
+.map-flex-container {
+      margin-right: 100px;
 }

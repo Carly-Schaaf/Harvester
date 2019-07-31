@@ -1,7 +1,7 @@
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList } = graphql;
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLFloat, GraphQLList } = graphql;
 const mongoose = require('mongoose');
-const Produce = mongoose.model('produce');
+const User = mongoose.model('user');
 
 const UserType = new GraphQLObjectType({
     name: "UserType",
@@ -10,19 +10,22 @@ const UserType = new GraphQLObjectType({
         username: {type: GraphQLString},
         password: {type:GraphQLString},
         date: {type: GraphQLString},
+        lat: { type: GraphQLFloat },
+        lng: { type: GraphQLFloat },
         produces: {
             type: new GraphQLList(require('./produce_type')),
             resolve(parentValue) {
-                return Produce.find({user: parentValue.id})
-                    .then(produces => produces)
+                return User.findById(parentValue.id)
+                    .populate('produces')
+                    .then(user => user.produces);
             }
         },
         reviews: {
             type: new GraphQLList(require('./review_type')),
             resolve(parentValue) {
-                return Review.find({ user: parentValue.id })
-                    .then(reviews => reviews)
-                    .catch(err => null);
+                return User.findById(parentValue.id)
+                    .populate('reviews')
+                    .then(user => user.reviews);
             }
         }
     })

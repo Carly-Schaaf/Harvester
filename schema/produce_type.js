@@ -1,7 +1,9 @@
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLList, GraphQLBoolean, GraphQLID, GraphQLInt, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLList, GraphQLFloat, GraphQLBoolean, GraphQLID, GraphQLInt, GraphQLString } = graphql;
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
+const Produce = mongoose.model('produce')
+const Review = mongoose.model('reviews');
 
 const ProduceType = new GraphQLObjectType({
     name: 'ProduceType',
@@ -15,20 +17,22 @@ const ProduceType = new GraphQLObjectType({
         quality: { type: GraphQLInt },
         abundance: { type: GraphQLInt },
         date: {type: GraphQLString},
+        lat: { type: GraphQLFloat},
+        lng: { type: GraphQLFloat},
         user: {
             type: require('./user_type'),
             resolve(parentValue) {
-                return User.findById(parentValue.user)
-                    .then(user => user)
-                    .catch(err => null);
+                return Produce.findById(parentValue.id)
+                    .populate('user')
+                    .then(produce => produce.user)
             }
         },
         reviews: {
             type: new GraphQLList(require('./review_type')),
             resolve(parentValue) {
-                return Review.find({produce: parentValue.id})
-                    .then(reviews => reviews)
-                    .catch(err => null);
+                return Produce.findById(parentValue.id)
+                    .populate('reviews')
+                    .then(produce => produce.reviews)
             }
         }
     })

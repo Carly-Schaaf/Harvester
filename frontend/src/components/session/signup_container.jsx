@@ -1,22 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux';
-import { signup } from '../../actions/session_actions';
 import { Link } from 'react-router-dom';
-
-
-const mapStateToProps = (state) => {
-    return {
-        errors: state.errors.session,
-        signedIn: state.session.isSignedIn
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        signup: user => dispatch(signup(user))
-    }
-}
 
 class SignupForm extends React.Component {
     constructor(props) {
@@ -36,17 +20,8 @@ class SignupForm extends React.Component {
             username: this.state.username,
             password: this.state.password,
             password2: this.state.password2,
-            loc: {
-                type: "Point",
-                coordinates: [this.state.xCoord, this.state.yCoord]
-            }
-        }
-        this.props.signup(user)
-    }
-
-    componentDidUpdate(nextProps) {
-        if (nextProps.signedIn === true) {
-            this.props.history.push('/login');
+            lng: this.state.xCoord,
+            lng: this.state.yCoord
         }
     }
 
@@ -83,4 +58,4 @@ class SignupForm extends React.Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignupForm));
+export default SignupForm;

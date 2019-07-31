@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { login } from '../../actions/session_actions';
 import { Link } from 'react-router-dom';
 
 class LoginForm extends React.Component {
@@ -14,7 +12,6 @@ class LoginForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.login(this.state)
     }
     render() {
         const errors = Object.values(this.props.errors).map((error, i) => {
@@ -40,16 +37,5 @@ class LoginForm extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        errors: state.errors.session
-    };
-};
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        login: user => dispatch(login(user))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginForm;

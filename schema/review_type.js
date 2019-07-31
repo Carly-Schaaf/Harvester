@@ -18,17 +18,17 @@ const ReviewType = new GraphQLObjectType({
         user: {
             type: require('./user_type'),
             resolve(parentValue) {
-                return User.findById(parentValue.user)
-                    .then(user => user)
-                    .catch(err => null);
+                return Review.findById(parentValue.id)
+                    .populate('user')
+                    .then(review => review.user);
             }
         },
         produce: {
             type: require('./produce_type'),
             resolve(parentValue) {
-                return Produce.findById(parentValue.produce)
-                    .then(produce => produce)
-                    .catch(err => null);
+                return Review.findById(parentValue.id)
+                    .populate('produce')
+                    .then(review => review.produce);
             }
         }
     })

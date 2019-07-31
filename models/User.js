@@ -14,19 +14,24 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    loc: {
-        type: {
-            type: String,
-            enum: ['Point'],
-            required: true
-        },
-        coordinates: {
-            type: [Number],
-            required: true
-        }
-    },
+    lat: { type: Number },
+    lng: { type: Number },
     produces: [{ type: Schema.Types.ObjectId, ref: 'produce' }],
-    reviews: [{ type: Schema.Types.ObjectId, ref: 'review' }],
+    reviews: [{ type: Schema.Types.ObjectId, ref: 'reviews' }],
 })
+
+// UserSchema.statics.addAssociation = function(userId, relativeId, type) {
+//     const user = this.findById(userId);
+//     switch (type) {
+//         case "review":
+
+//             user.reviews.push(relativeId);
+//             break;
+        
+//     }
+
+//     return user.save();
+            
+// }
 
 module.exports = mongoose.model('user', UserSchema);
