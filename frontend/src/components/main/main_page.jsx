@@ -18,12 +18,19 @@ const styles = theme => ({
         fontFamily: "'Roboto Mono', monospace"
     },
     input: {
-        fontFamily: "'Roboto Mono', monospace !important"
+        fontFamily: "'Roboto Mono', monospace !important",
+        // '&:active': {
+        //     backgroundColor: 'black'
+        // }
     },
     paper: {
         padding: "35px 55px",
         "box-shadow": "none",
         border: "1px solid rgba(0,0,0,0.12)",
+    },
+    button: {
+        backgroundColor: "rgba(102, 205, 170, .3)"
+        
     }
 });
 
@@ -151,7 +158,7 @@ class MainPage extends React.Component {
                                                 classes={classes.input}
                                                 onChange={this.update("search")}
                                             />
-                                            <Button type="submit" size="large" variant="outlined">
+                                            <Button type="submit" size="large" className={classes.button} variant="outlined">
                                                 Submit
                                             </Button>
                                         </div>

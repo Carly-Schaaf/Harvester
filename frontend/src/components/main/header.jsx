@@ -16,7 +16,7 @@ const styles = theme => ({
 const Header = (props) => (
     <div className="header-container">
         <img src="https://static.thenounproject.com/png/1046400-200.png" alt="harvest icon"/>
-        <Typography className={props.classes.root} variant="h1" align="center" gutterBottom color="inherit">
+        <Typography className={props.classes.root} variant="h2" align="center" gutterBottom color="inherit">
             harvester
         </Typography>
     </div>
