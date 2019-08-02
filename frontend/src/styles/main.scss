@@ -3,6 +3,18 @@
   flex-direction: column;
 }
 
+.form-container {
+  display: flex;
+  margin-top: 10px;
+  // justify-content: 
+  div {
+    margin: 0px;
+  }
+  button {
+    margin-left: 10px;
+  }
+  
+}
 
 #map {
     width: 100%;
@@ -45,3 +57,4 @@
 .map-flex-container {
       margin-right: 100px;
 }
+

@@ -17,9 +17,11 @@ export default {
                 date,
                 lat,
                 lng,
+                score,
                 reviews {
                     comments,
-                    id
+                    id,
+                    accessible
                 }
             }
         }

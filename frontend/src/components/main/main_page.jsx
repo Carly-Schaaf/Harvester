@@ -9,11 +9,18 @@ import Queries from '../../graphql/queries';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
 const { FETCH_ALL_PRODUCE } = Queries;
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { withStyles } from '@material-ui/styles';
 
-const override = css`
-    display: block;
-    margin: 50% auto;
-`;
+const styles = theme => ({
+    override: {
+        display: "block",
+        margin: "50% auto"
+    },
+    overrideTypography: {
+        fontFamily: "'Roboto Mono', monospace"
+    }
+});
 
 class MainPage extends React.Component {
     
@@ -23,6 +30,7 @@ class MainPage extends React.Component {
         this.newURL = new URLSearchParams(this.search);
         this.state = {
             currentLocation: "",
+            clickedMarker: "",
             search: "",
             bounds: {
                 south: "",
@@ -54,7 +62,7 @@ class MainPage extends React.Component {
 
         const map = document.getElementById("map");
         this.map = new window.google.maps.Map(map, mapOptions);
-        this.MarkerManager = new MarkerManager(this.map);
+        this.MarkerManager = new MarkerManager(this.map, this.setClickedMarker.bind(this));
 
         window.google.maps.event.addListener(this.map, 'idle', async () => {
             const { north, south, east, west } = this.map.getBounds().toJSON();
@@ -67,7 +75,13 @@ class MainPage extends React.Component {
             await this.setState({bounds});
             this.fetchProduce(this.client);
         });
+
     }
+
+    setClickedMarker(nodeId) {
+        this.setState({clickedMarker: nodeId});
+    }
+
 
     // transitionUp() {
     //     const searchInput = document.getElementsByClassName("search-field")[0];
@@ -98,8 +112,14 @@ class MainPage extends React.Component {
         this.fetchProduce(client);
     }
 
+    handleClickAway() {
+        if (this.state.clickedMarker === "") return;
+        this.state.clickedMarker.style.backgroundColor = "";
+    }
+
 
     render() {
+        const { classes } = this.props;
         return(
             <ApolloConsumer>
                 {(client) => {
@@ -108,24 +128,27 @@ class MainPage extends React.Component {
                         <div className="flex center top"> 
                             <div className="flex center column map-flex-container">
                                 <form onSubmit={(e) => this.handleSubmit(e, client)}>
-                                    <Typography variant="h5">what are you searching for?</Typography>
-                                    <TextField
-                                        id="outlined-produce-input"
-                                        label="Fruit, vegetable, herb..."
-                                        margin="dense"
-                                        value={this.state.search}
-                                        fullWidth
-                                        variant="outlined"
-                                        margin="normal"
-                                        onChange={this.update("search")}
-                                    />
-                                    <Button fullWidth type="submit" size="large" variant="outlined">
-                                        Submit
-                                    </Button>
+                                    <Typography className={classes.overrideTypography} variant="h5">what are you searching for?</Typography>
+                                    <div className="form-container">
+                                        <TextField
+                                            id="outlined-produce-input"
+                                            label="Fruit, vegetable, herb..."
+                                            margin="normal"
+                                            fullWidth
+                                            value={this.state.search}
+                                            variant="outlined"
+                                            onChange={this.update("search")}
+                                        />
+                                        <Button type="submit" size="large" variant="outlined">
+                                            Submit
+                                        </Button>
+                                    </div>
                                 </form>
-                                <div className="map-container">
-                                    <div id="map"><ClipLoader css={override} /></div>
-                                </div> 
+                                <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
+                                    <div className="map-container">
+                                        <div id="map"><ClipLoader className={classes.override} /></div>
+                                    </div> 
+                                </ClickAwayListener>
                             </div>
                             <div>
                                 <ProduceIndex produce={this.state.produce} />
@@ -138,8 +161,6 @@ class MainPage extends React.Component {
     }
 }
 
-export default MainPage;
-
-
+export default withStyles(styles)(MainPage);
 
 

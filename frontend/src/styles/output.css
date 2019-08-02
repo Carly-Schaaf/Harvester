@@ -102,6 +102,17 @@ footer {
   flex-direction: column;
 }
 
+.form-container {
+  display: flex;
+  margin-top: 10px;
+}
+.form-container div {
+  margin: 0px;
+}
+.form-container button {
+  margin-left: 10px;
+}
+
 #map {
   width: 100%;
   height: 100%;
@@ -151,6 +162,17 @@ footer {
 
 .features-container {
   display: grid;
+}
+
+.selected {
+  background-color: black;
+}
+
+footer {
+  background: url("https://www.destinationtiburon.org/assets/static/footer-wave.png") no-repeat;
+  background-size: cover;
+  margin-top: 40px;
+  opacity: 0.5;
 }
 
 /*# sourceMappingURL=output.css.map */

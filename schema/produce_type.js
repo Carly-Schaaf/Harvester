@@ -19,6 +19,12 @@ const ProduceType = new GraphQLObjectType({
         date: {type: GraphQLString},
         lat: { type: GraphQLFloat},
         lng: { type: GraphQLFloat},
+        score: { type: GraphQLFloat,
+                async resolve(parentValue) {
+                    return Produce.avgTotalReviewScore(parentValue.id);
+                 }
+
+        },
         user: {
             type: require('./user_type'),
             resolve(parentValue) {

@@ -15,7 +15,6 @@ const App = () => (
             <Route exact path="/" component={ MainPage } />
         </Switch>
         <footer>
-            Footer
         </footer>
     </div>
 )

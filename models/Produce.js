@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Review = require('./Review');
 
 const ProduceSchema = new Schema({
     user: {
@@ -63,6 +64,37 @@ ProduceSchema.statics.findWithinBounds = function (bounds) {
    })
 }
 
+ProduceSchema.statics.avgTotalReviewScore = async function (produceId) {
+    let idToSearch = mongoose.Types.ObjectId(produceId)
+    const aggregate = await Review.aggregate([
+       { $match: { produce: idToSearch }},
+                { $group: {
+                        _id: null,
+                        avgAccessibility: {
+                            $avg: "$accessible"
+                        },
+                        avgAbundance: {
+                            $avg: "$abundance"
+                        },
+                        avgQuality: {
+                            $avg: "$quality"
+                        },
+                        avgOwnerPermission: {
+                            $avg: "$ownerPermission"
+                        },
+                    } }]);
+        const obj = aggregate[0];
+        if (obj === undefined) return 0;
+        const { avgAccessibility,
+            avgAbundance,
+            avgQuality,
+            avgOwnerPermission } = obj;
+        return (avgAccessibility +
+                avgAbundance +
+                avgQuality +
+                avgOwnerPermission) / 4;
+}
+        
 ProduceSchema.statics.findByName = function (produce, name) {
    return produce.find({ name: { "$regex": name, "$options": "i" }})
         .then(produce => produce)

@@ -1,9 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import { Query, ApolloConsumer } from "react-apollo";
 import Queries from '../../graphql/queries';
 const { FETCH_ALL_PRODUCE } = Queries;
-import DeleteProduce from './deleteProduce';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,9 +12,8 @@ import NaturePeople from '@material-ui/icons/NaturePeople';
 import AccessibleForward from '@material-ui/icons/AccessibleForward';
 import Add from '@material-ui/icons/Add';
 import HighQuality from '@material-ui/icons/HighQuality';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Box from '@material-ui/core/Box';
-import Slide from '@material-ui/core/Slide';
+import Star from '@material-ui/icons/StarRate';
+import StarHalf from '@material-ui/icons/StarHalf';
 
 
 const styles = theme => ({
@@ -38,6 +34,9 @@ const styles = theme => ({
     typography: {
         width: "100px"
     },
+    typographyHeader: {
+        fontFamily: "'Roboto Mono', monospace"
+    },
     icon: {
         fontSize: "15px",
         position: 'relative',
@@ -48,33 +47,30 @@ const styles = theme => ({
         display: "flex",
         "align-items": "baseline",
         margin: "5px 0"
+    },
+    indexContainer: {
+        height: "64vh",
+        overflow: "scroll",
+        padding: "40px",
+        "box-shadow": "none",
+        border: "1px solid rgba(0,0,0,0.12)"
+    },
+    star: {
+        fontSize: "19px",
+       },
+    starHalf: {
+        position: 'relative',
+        bottom: '2.5px',
+        fontSize: "15px",
     }
 });
 
+const ProduceIndex = (props) => {
+    const { classes } = props;
 
-class ProduceIndex extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    renderReviews(reviews) {
-        if (!reviews) {
-            return null;
-        } else {
-            return(
-                reviews.map(review => {
-                    return(
-                        <ListItemText key={review.id} secondary={`- ${review.comments}`}/>
-                    )
-                })
-            )
-        }
-    }
-
-    renderFeatures(args) {
+    const renderFeatures = (args) => {
         const { abundance, accessible, ownerPermission, quality } = args;
-        const { classes } = this.props;
+        const { classes } = props;
         const publicLand = args.public;
         let publicOrPrivate;
         if (publicLand) {
@@ -83,13 +79,14 @@ class ProduceIndex extends React.Component {
             publicOrPrivate = "Owner Consent"
         }
 
-        const features = Object.assign({ 
-            "abundant": abundance, 
-            accessible, 
-            "quality stuff": quality }, 
-            {[publicOrPrivate]: "publicOrPrivate"});
+        const features = Object.assign({
+            "abundant": abundance,
+            accessible,
+            "quality stuff": quality
+        },
+            { [publicOrPrivate]: "publicOrPrivate" });
 
-        const gridItems = Object.keys(features).map((feature) => {
+        const gridItems = Object.keys(features).map((feature, i) => {
             if (features[feature] > 2 || (features[feature] === "publicOrPrivate")) {
                 let icon;
                 switch (feature) {
@@ -109,50 +106,71 @@ class ProduceIndex extends React.Component {
                         icon = (<NaturePeople className={classes.icon} />);
                         break;
                 }
-                return(
-                    <div className="grid-item-container">
+                return (
+                    <div key={i} className="grid-item-container">
                         {icon}
                         <Typography className={classes.typography} variant="overline">
-                            {feature} 
+                            {feature}
                         </Typography>
                     </div>
                 )
             }
         })
-        return(
+        
+        return (
             <div className="features-container">
                 {gridItems}
             </div>
-            
-        )
-    }
 
-    render() {
-        const { classes } = this.props;
-        let plural;
-        let count = this.props.produce.length;
-        count > 1 ? plural = " types of" : "";
-        const listItems = this.props.produce.map(({ id, name, type, reviews, ...rest }, i) => (
-            <Paper key={id + i} square className={classes.root}>
-                <ListItem className={classes.listItem} alignItems="flex-start">
-                    <ListItemText primary={name} secondary={type} />
-                </ListItem>
-                {this.renderFeatures({...rest})}
-            </Paper>
-        ));
-        return (
-            <div>
-                <Typography align="center" variant="h4">
-                        {count} harvestable{plural} produce
-                    </Typography>
-                    <Divider className={classes.root} />
-                    <List>
-                        {listItems}
-                    </List>
-            </div>
         )
-                
     }
+        const generateStars = (score, numReviews) => {
+            const stars = [];
+            let remainder = score;
+            for (let index = 1; index < score; index++) {
+                stars.push(<Star key={Math.random()} className={classes.star} />)
+                remainder -= 1;
+            }
+            if (remainder > 0) { stars.push(<StarHalf key={Math.random()} className={classes.starHalf} />)}
+            const reviewString = numReviews > 1 ? "reviews" : "review";
+            stars.push(<br key={Math.random()} />);
+            stars.push(<span key={Math.random()}>{numReviews} {reviewString}</span>)
+            return(
+                <span>
+                    {stars}
+                </span>
+            )
+        }
+
+        const listItems = () => {
+            return props.produce.map(({ id, name, score, reviews, ...rest }, i) => {
+                const displayScore = score === 0 ? "No reviews yet" : generateStars(score, reviews.length);
+                return (
+                <Paper id={id} key={id + i} square className={classes.root}>
+                    <ListItem className={classes.listItem} alignItems="flex-start">
+                        <ListItemText primary={name} secondary={displayScore} />
+                    </ListItem>
+                    {renderFeatures({ ...rest })}
+                </Paper>)
+                });
+        }
+
+        let plural;
+        let count = props.produce.length;
+        count > 1 ? plural = " types of" : "";
+        return (
+            <Paper id={"scroll-container"} elevation={1} className={classes.indexContainer}>
+                <Typography className={classes.typographyHeader} align="center" variant="h5">
+                    {count} harvestable{plural} produce
+                </Typography>
+                <Divider className={classes.root} />
+                <List>
+                    {listItems()}
+                </List>
+            </Paper>
+        )
+
 }
+    
 
 export default withStyles(styles)(ProduceIndex);
