@@ -11,16 +11,26 @@ import ClipLoader from 'react-spinners/ClipLoader';
 const { FETCH_ALL_PRODUCE } = Queries;
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { withStyles } from '@material-ui/styles';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
-    override: {
-        display: "block",
-        margin: "50% auto"
-    },
     overrideTypography: {
         fontFamily: "'Roboto Mono', monospace"
+    },
+    input: {
+        fontFamily: "'Roboto Mono', monospace !important"
+    },
+    paper: {
+        padding: "35px 55px",
+        "box-shadow": "none",
+        border: "1px solid rgba(0,0,0,0.12)",
     }
 });
+
+const loader = css`
+    display: block;
+    margin: 50% auto;
+`;
 
 class MainPage extends React.Component {
     
@@ -127,30 +137,33 @@ class MainPage extends React.Component {
                     return <div>
                         <div className="flex center top"> 
                             <div className="flex center column map-flex-container">
-                                <form onSubmit={(e) => this.handleSubmit(e, client)}>
-                                    <Typography className={classes.overrideTypography} variant="h5">what are you searching for?</Typography>
-                                    <div className="form-container">
-                                        <TextField
-                                            id="outlined-produce-input"
-                                            label="Fruit, vegetable, herb..."
-                                            margin="normal"
-                                            fullWidth
-                                            value={this.state.search}
-                                            variant="outlined"
-                                            onChange={this.update("search")}
-                                        />
-                                        <Button type="submit" size="large" variant="outlined">
-                                            Submit
-                                        </Button>
-                                    </div>
-                                </form>
+                                <Paper className={classes.paper}>
+                                    <form onSubmit={(e) => this.handleSubmit(e, client)}>
+                                        <Typography className={classes.overrideTypography} variant="h5">what are you searching for?</Typography>
+                                        <div className="form-container">
+                                            <TextField
+                                                id="outlined-produce-input"
+                                                label="Fruit, vegetable, herb..."
+                                                margin="normal"
+                                                fullWidth
+                                                value={this.state.search}
+                                                variant="outlined"
+                                                classes={classes.input}
+                                                onChange={this.update("search")}
+                                            />
+                                            <Button type="submit" size="large" variant="outlined">
+                                                Submit
+                                            </Button>
+                                        </div>
+                                    </form>
+                                </Paper>
                                 <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
                                     <div className="map-container">
-                                        <div id="map"><ClipLoader className={classes.override} /></div>
+                                        <div id="map"><ClipLoader css={loader} /></div>
                                     </div> 
                                 </ClickAwayListener>
                             </div>
-                            <div>
+                            <div className="outer-produce-index-container">
                                 <ProduceIndex produce={this.state.produce} />
                             </div>
                         </div>

@@ -19,7 +19,7 @@ export default class MarkerManager {
             const node = document.getElementById(produce.id);
             this.prevNode = node;
             const scrollBox = document.getElementById("scroll-container");
-            node.style.backgroundColor = "antiquewhite";
+            node.style.backgroundColor = "rgba(102, 205, 170, .3)";
             scrollBox.scroll({ top: node.offsetTop, behavior: 'smooth' })
             this.setClickedMarker(node);
         });

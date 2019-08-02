@@ -100,11 +100,12 @@ footer {
 .main {
   display: flex;
   flex-direction: column;
+  background-color: rgba(250, 235, 215, 0.5);
 }
 
 .form-container {
   display: flex;
-  margin-top: 10px;
+  margin-top: 7px;
 }
 .form-container div {
   margin: 0px;
@@ -152,6 +153,10 @@ footer {
   margin-right: 100px;
 }
 
+.outer-produce-index-container {
+  width: 30%;
+}
+
 .form {
   margin: 200px;
 }
@@ -173,6 +178,16 @@ footer {
   background-size: cover;
   margin-top: 40px;
   opacity: 0.5;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-container img {
+  width: 5%;
+  margin-right: 20px;
 }
 
 /*# sourceMappingURL=output.css.map */

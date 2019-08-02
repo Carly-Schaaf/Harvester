@@ -2,6 +2,7 @@ import React from 'react';
 import Queries from '../../graphql/queries';
 const { FETCH_ALL_PRODUCE } = Queries;
 import List from '@material-ui/core/List';
+import { css } from '@emotion/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
@@ -14,6 +15,7 @@ import Add from '@material-ui/icons/Add';
 import HighQuality from '@material-ui/icons/HighQuality';
 import Star from '@material-ui/icons/StarRate';
 import StarHalf from '@material-ui/icons/StarHalf';
+import BounceLoader from 'react-spinners/BounceLoader';
 
 
 const styles = theme => ({
@@ -22,7 +24,7 @@ const styles = theme => ({
         display: "flex",
         "align-items": "baseline",
         '&:hover': {
-            background: "antiquewhite",
+            background: "rgba(102, 205, 170, .3)",
         }
     },
     listItem: {
@@ -53,7 +55,7 @@ const styles = theme => ({
         overflow: "scroll",
         padding: "40px",
         "box-shadow": "none",
-        border: "1px solid rgba(0,0,0,0.12)"
+        border: "1px solid rgba(0,0,0,0.12)",
     },
     star: {
         fontSize: "19px",
@@ -62,8 +64,16 @@ const styles = theme => ({
         position: 'relative',
         bottom: '2.5px',
         fontSize: "15px",
-    }
+    },
 });
+
+const loader = css`
+        display: block;
+        margin: 50% auto;
+        .css-10hh9gs-style {
+            background-color: rgba(102, 205, 170, .3);
+        }
+    `
 
 const ProduceIndex = (props) => {
     const { classes } = props;
@@ -154,19 +164,39 @@ const ProduceIndex = (props) => {
                 </Paper>)
                 });
         }
+        const [count, setCount] = React.useState(props.produce.length);
+        const [loading, setLoading] = React.useState(true);
+
+        React.useEffect(() => {
+            if (props.produce.length > 0) {
+                setLoading(false);
+                setCount(props.produce.length);
+            }
+        }, [props.produce])
 
         let plural;
-        let count = props.produce.length;
+        let display;
         count > 1 ? plural = " types of" : "";
+        if (loading) {
+            display = (
+                <BounceLoader css={loader} />
+            )
+        } else {
+            display = (
+                <React.Fragment>
+                    <Typography className={classes.typographyHeader} align="center" variant="h5">
+                        {count} harvestable{plural} produce
+                    </Typography>
+                    <Divider className={classes.root} />
+                    <List>
+                        {listItems()}
+                    </List>
+                </React.Fragment>
+            );
+        }
         return (
             <Paper id={"scroll-container"} elevation={1} className={classes.indexContainer}>
-                <Typography className={classes.typographyHeader} align="center" variant="h5">
-                    {count} harvestable{plural} produce
-                </Typography>
-                <Divider className={classes.root} />
-                <List>
-                    {listItems()}
-                </List>
+                {display}
             </Paper>
         )
 
