@@ -100,8 +100,7 @@ footer {
 .main {
   display: flex;
   flex-direction: column;
-  background-color: rgba(250, 235, 215, 0.5);
-  background-image: linear-gradient(to bottom right, rgba(255, 69, 0, 0.3), rgba(250, 235, 215, 0.5), rgba(250, 235, 215, 0.5), darkorange);
+  background-image: linear-gradient(to bottom right, white, white, white, darkorange);
 }
 
 .form-container {
