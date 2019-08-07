@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 const Produce = mongoose.model('produce')
 const Review = mongoose.model('reviews');
+const axios = require('axios');
 
 const ProduceType = new GraphQLObjectType({
     name: 'ProduceType',
@@ -19,6 +20,14 @@ const ProduceType = new GraphQLObjectType({
         date: {type: GraphQLString},
         lat: { type: GraphQLFloat},
         lng: { type: GraphQLFloat},
+        description: {
+            type: GraphQLString,
+            resolve(parentValue) {
+                return axios.get(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exlimit=max&explaintext&exintro&titles=${parentValue.name}&redirects=1`)
+                    .then(res => {
+                        return Object.values(res.data.query.pages)[0].extract})
+            }
+        },
         score: { type: GraphQLFloat,
                 async resolve(parentValue) {
                     return Produce.avgTotalReviewScore(parentValue.id);

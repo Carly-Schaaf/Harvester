@@ -53,7 +53,7 @@ const styles = theme => ({
     indexContainer: {
         height: "64vh",
         overflow: "scroll",
-        padding: "40px",
+        padding: "5%",
         "box-shadow": "none",
         border: "1px solid rgba(0,0,0,0.12)",
     },

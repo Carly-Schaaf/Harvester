@@ -19,14 +19,12 @@ const styles = theme => ({
     },
     input: {
         fontFamily: "'Roboto Mono', monospace !important",
-        // '&:active': {
-        //     backgroundColor: 'black'
-        // }
     },
     paper: {
-        padding: "35px 55px",
+        padding: "30px 55px",
         "box-shadow": "none",
         border: "1px solid rgba(0,0,0,0.12)",
+        marginBottom: "2%"
     },
     button: {
         backgroundColor: "rgba(102, 205, 170, .3)"
@@ -144,6 +142,13 @@ class MainPage extends React.Component {
                     return <div>
                         <div className="flex center top"> 
                             <div className="flex center column map-flex-container">
+                                <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
+                                    <div className="map-container">
+                                        <div id="map"><ClipLoader css={loader} /></div>
+                                    </div> 
+                                </ClickAwayListener>
+                            </div>
+                            <div className="outer-produce-index-container">
                                 <Paper className={classes.paper}>
                                     <form onSubmit={(e) => this.handleSubmit(e, client)}>
                                         <Typography className={classes.overrideTypography} variant="h5">what are you searching for?</Typography>
@@ -164,13 +169,6 @@ class MainPage extends React.Component {
                                         </div>
                                     </form>
                                 </Paper>
-                                <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
-                                    <div className="map-container">
-                                        <div id="map"><ClipLoader css={loader} /></div>
-                                    </div> 
-                                </ClickAwayListener>
-                            </div>
-                            <div className="outer-produce-index-container">
                                 <ProduceIndex produce={this.state.produce} />
                             </div>
                         </div>

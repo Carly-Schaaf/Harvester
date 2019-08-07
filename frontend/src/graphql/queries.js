@@ -12,6 +12,7 @@ export default {
                 public,
                 accessible,
                 ownerPermission,
+                description,
                 quality,
                 abundance,
                 date,

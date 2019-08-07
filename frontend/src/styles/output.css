@@ -100,7 +100,7 @@ footer {
 .main {
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(to bottom right, white, white, white, darkorange);
+  background-image: linear-gradient(to bottom right, rgba(5, 87, 29, 0.5), white, white, white, darkorange);
 }
 
 .form-container {
@@ -120,9 +120,8 @@ footer {
 }
 
 .map-container {
-  height: 500px;
-  width: 500px;
-  margin-top: 40px;
+  height: 85vh;
+  width: 100%;
   justify-content: space-evenly;
   transition: align-items 500ms ease-in-out;
 }
@@ -150,11 +149,12 @@ footer {
 }
 
 .map-flex-container {
-  margin-right: 100px;
+  margin-right: 2%;
+  width: 33%;
 }
 
 .outer-produce-index-container {
-  width: 30%;
+  width: 40%;
 }
 
 .form {
@@ -182,14 +182,15 @@ footer {
 
 .header-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  background-color: rgba(102, 205, 170, 0.2);
-  margin-bottom: 30px;
+  background-color: white;
+  border-bottom: 2px solid rgba(102, 205, 170, 0.2);
+  margin-bottom: 2.5em;
 }
 .header-container img {
   width: 3%;
-  margin-right: 20px;
+  margin: 0px 1.5em;
 }
 
 /*# sourceMappingURL=output.css.map */

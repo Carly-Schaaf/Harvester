@@ -1,12 +1,15 @@
 .main {
   display: flex;
   flex-direction: column;
-  // background-color: rgba(250,235,215 ,0.5);
   background-image: linear-gradient(to bottom right, 
+  rgba(5, 87, 29, .5), 
   white, 
   white,
   white,
-  rgba(255,140,0 ,1));
+  rgba(255, 140, 0, 1));
+  // background: url("https://i5.wal.co/dfw/4ff9c6c9-d2f2/k2-_c0a4da88-34f9-46e0-a833-1e75c1e78397.v1.jpg") no-repeat;
+  // background-size: contain;
+  // opacity: 1;
 }
 
 .form-container {
@@ -27,9 +30,8 @@
 }
 
 .map-container {
-    height: 500px;
-    width: 500px;
-    margin-top: 40px;
+    height: 85vh;
+    width: 100%;
     justify-content: space-evenly;
     transition: align-items 500ms ease-in-out;
 }
@@ -60,9 +62,10 @@
 }
 
 .map-flex-container {
-      margin-right: 100px;
+      margin-right: 2%;
+      width: 33%
 }
 
 .outer-produce-index-container {
-  width: 30%;
+  width: 40%;
 }
