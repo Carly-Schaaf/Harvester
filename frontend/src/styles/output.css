@@ -120,7 +120,7 @@ footer {
 }
 
 .map-container {
-  height: 85vh;
+  height: 93vh;
   width: 100%;
   justify-content: space-evenly;
   transition: align-items 500ms ease-in-out;
@@ -167,10 +167,21 @@ footer {
 
 .features-container {
   display: grid;
+  min-width: 8em;
 }
 
 .selected {
   background-color: black;
+}
+
+.produce-thumbnail {
+  display: block;
+  width: 20%;
+  height: 30%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 15%;
+  margin: 0 14px;
 }
 
 footer {

@@ -28,6 +28,19 @@ const ProduceType = new GraphQLObjectType({
                         return Object.values(res.data.query.pages)[0].extract})
             }
         },
+        imageUrl: {
+            type: GraphQLString,
+            resolve(parentValue) {
+                return axios.get(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=pageimages&pithumbsize=300&titles=${parentValue.name}&redirects=1`)
+                // return axios.get('https://serpapi.com/playground?q=Apple&tbm=isch&ijn=0')
+                    .then(res => {
+                        try {
+                            return Object.values(res.data.query.pages)[0].thumbnail.source;
+                        } catch (err) {
+                            return null;
+                        }
+            })
+        }},
         score: { type: GraphQLFloat,
                 async resolve(parentValue) {
                     return Produce.avgTotalReviewScore(parentValue.id);

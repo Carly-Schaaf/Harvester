@@ -1,7 +1,18 @@
 .features-container {
     display: grid;
+    min-width: 8em;
 }
 
 .selected {
     background-color: black;
+}
+
+.produce-thumbnail {
+    display: block;
+    width: 20%;
+    height: 30%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 15%;
+    margin: 0 14px;
 }

@@ -1,5 +1,5 @@
 import React from 'react'; 
-import ProduceIndex from '../produces/produceIndex';
+import ProduceIndex from '../produces/ProduceIndex';
 import MarkerManager from '../../util/marker_manager';
 import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -45,7 +45,6 @@ class MainPage extends React.Component {
         this.newURL = new URLSearchParams(this.search);
         this.state = {
             currentLocation: "",
-            clickedMarker: "",
             search: "",
             bounds: {
                 south: "",
@@ -56,6 +55,7 @@ class MainPage extends React.Component {
             produce: [],
             loading: true,
         };
+        this.clickedMarker = "";
     }
 
     componentDidMount() {
@@ -94,7 +94,7 @@ class MainPage extends React.Component {
     }
 
     setClickedMarker(nodeId) {
-        this.setState({clickedMarker: nodeId});
+        this.clickedMarker = nodeId;
     }
 
 
@@ -128,8 +128,8 @@ class MainPage extends React.Component {
     }
 
     handleClickAway() {
-        if (this.state.clickedMarker === "") return;
-        this.state.clickedMarker.style.backgroundColor = "";
+        if (this.clickedMarker === "") return;
+        this.clickedMarker.style.backgroundColor = "";
     }
 
 
