@@ -12,7 +12,7 @@ const App = () => (
         <Header />
         <Switch>
             <Route exact path="/produce/new" component={ ProduceCreate } />
-            <Route exact path="/" component={ MainPage } />
+            <Route path="/" component={ MainPage } />
         </Switch>
         <footer>
         </footer>

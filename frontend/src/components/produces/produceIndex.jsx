@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import { css } from '@emotion/core';
 import Divider from '@material-ui/core/Divider';
@@ -38,7 +39,11 @@ const ProduceIndex = (props) => {
 
         const listItems = () => {
             return props.produce.map((produce, i) => {
-                return <ProduceDetail produce={produce} key={i} />
+                return(
+                    <Link to={`/produces/${produce.id}`}>
+                        <ProduceDetail produce={produce} key={i} />
+                    </Link>
+                    )
                 });
         }
         const [count, setCount] = React.useState(props.produce.length);
@@ -47,8 +52,8 @@ const ProduceIndex = (props) => {
         React.useEffect(() => {
             if (props.produce.length > 0) {
                 setLoading(false);
-                setCount(props.produce.length);
             }
+            setCount(props.produce.length);
         }, [props.produce])
 
         let plural;
