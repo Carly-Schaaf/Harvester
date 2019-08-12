@@ -21,7 +21,12 @@
   button {
     margin-left: 10px;
   }
-  
+  @media screen and (max-width: 1010px) {
+    flex-direction: column;
+    button {
+      margin: 5px 0px 0px 0px;
+    }
+  }
 }
 
 #map {
@@ -34,6 +39,9 @@
     width: 100%;
     justify-content: space-evenly;
     transition: align-items 500ms ease-in-out;
+    @media screen and (max-width: 400px) {
+      height: 50vh;
+    }
 }
 
 .search-field {
@@ -62,10 +70,24 @@
 }
 
 .map-flex-container {
-      margin-right: 2%;
-      width: 33%
+    margin-right: 2%;
+    width: 33%;
+    @media screen and (max-width: 400px) {
+      margin-right: 0;
+      width: 90vw;
+    }
 }
 
 .outer-produce-index-container {
   width: 40%;
+  @media screen and (max-width: 400px) {
+      width: 90vw;
+    }
+}
+
+.main-page-container {
+   @media screen and (max-width: 400px) {
+        flex-direction: column;
+        align-items: center;
+    }
 }

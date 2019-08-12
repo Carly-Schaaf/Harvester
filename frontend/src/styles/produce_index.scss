@@ -1,8 +1,3 @@
-.features-container {
-    display: grid;
-    min-width: 8em;
-}
-
 .selected {
     background-color: black;
 }
@@ -15,4 +10,14 @@
     object-position: top;
     border-radius: 15%;
     margin: 0 14px;
+}
+
+.title-features-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.grid-item-container {
+    display: flex;
+    align-items: baseline;
 }

@@ -21,7 +21,7 @@ const styles = theme => ({
         fontFamily: "'Roboto Mono', monospace !important",
     },
     paper: {
-        padding: "30px 55px",
+        padding: "1.5em 2em",
         "box-shadow": "none",
         border: "1px solid rgba(0,0,0,0.12)",
         marginBottom: "2%"
@@ -59,6 +59,7 @@ class MainPage extends React.Component {
     }
 
     componentDidMount() {
+        this.props.history.push("/");
         this.getLocation();
     }
 
@@ -140,7 +141,7 @@ class MainPage extends React.Component {
                 {(client) => {
                     this.client = client;
                     return <div>
-                        <div className="flex center top"> 
+                        <div className="flex center top main-page-container"> 
                             <div className="flex center column map-flex-container">
                                 <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
                                     <div className="map-container">
@@ -151,11 +152,11 @@ class MainPage extends React.Component {
                             <div className="outer-produce-index-container">
                                 <Paper className={classes.paper}>
                                     <form onSubmit={(e) => this.handleSubmit(e, client)}>
-                                        <Typography className={classes.overrideTypography} variant="h5">what are you searching for?</Typography>
+                                        <Typography className={classes.overrideTypography} variant="h6">Search your neigborhood for local produce:</Typography>
                                         <div className="form-container">
                                             <TextField
                                                 id="outlined-produce-input"
-                                                label="Fruit, vegetable, herb..."
+                                                label="Try 'arugula'"
                                                 margin="normal"
                                                 fullWidth
                                                 value={this.state.search}

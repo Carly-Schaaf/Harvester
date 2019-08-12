@@ -13,7 +13,7 @@ export default {
                 accessible,
                 ownerPermission,
                 description,
-                imageUrl,
+                thumbnail,
                 quality,
                 abundance,
                 date,

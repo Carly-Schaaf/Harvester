@@ -28,7 +28,7 @@ const ProduceType = new GraphQLObjectType({
                         return Object.values(res.data.query.pages)[0].extract})
             }
         },
-        imageUrl: {
+        thumbnail: {
             type: GraphQLString,
             resolve(parentValue) {
                 return axios.get(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=pageimages&pithumbsize=300&titles=${parentValue.name}&redirects=1`)

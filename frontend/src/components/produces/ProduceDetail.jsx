@@ -51,7 +51,7 @@ const styles = theme => ({
 
 
 const ProduceDetail = ({ produce, classes, location }) => {
-    const { id, name, score, reviews, imageUrl, ...rest } = produce;
+    const { id, name, score, reviews, thumbnail, ...rest } = produce;
 
     const renderFeatures = (args) => {
         const { abundance, accessible, ownerPermission, quality } = args;
@@ -128,7 +128,7 @@ const ProduceDetail = ({ produce, classes, location }) => {
     }
     
     const displayScore = score === 0 ? "No reviews yet" : generateStars(score, reviews.length);
-    const thumbnail = imageUrl ? imageUrl : "https://as1.ftcdn.net/jpg/02/30/26/76/500_F_230267677_1vZFvqpLu1Sk6fITUzii9BXqs6l8ZRJR.jpg";
+    const photo = thumbnail ? thumbnail : "https://as1.ftcdn.net/jpg/02/30/26/76/500_F_230267677_1vZFvqpLu1Sk6fITUzii9BXqs6l8ZRJR.jpg";
     
     if (location.pathname !== `/produces/${id}`) {
     return (
@@ -137,7 +137,7 @@ const ProduceDetail = ({ produce, classes, location }) => {
                 <ListItemText primary={name} secondary={displayScore} />
             </ListItem>
             {renderFeatures({ ...rest })}
-            <img className="produce-thumbnail" src={thumbnail} alt={`${name} thumbnail`} />
+            <img className="produce-thumbnail" src={photo} alt={`${name} thumbnail`} />
         </Paper>)
     } else {
         return(
