@@ -40,7 +40,7 @@ const reviews = require("./routes/api/reviews");
 
 if (process.env.NODE_ENV === 'production') {
     app.get('/', (req, res) => {
-        res.cookie("google", google);
+        // res.cookie("google", google);
         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
     })
     app.use(express.static('frontend/build'))

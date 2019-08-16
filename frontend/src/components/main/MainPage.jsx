@@ -161,7 +161,7 @@ class MainPage extends React.Component {
                                                 fullWidth
                                                 value={this.state.search}
                                                 variant="outlined"
-                                                classes={classes.input}
+                                                className={classes.input}
                                                 onChange={this.update("search")}
                                             />
                                             <Button type="submit" size="large" className={classes.button} variant="outlined">
