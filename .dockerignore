@@ -1,3 +1,5 @@
 .git
 node_modules/
 frontend/node_modules
+config/keys_dev.js
+config/docker.env

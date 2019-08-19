@@ -29,7 +29,7 @@ const styles = theme => ({
 const Footer = (props) => (
     <footer>
             <div className={props.classes.itemsContainerLeft}>
-                <div className={props.classes.footerItems}>Built and designed by:</div>
+                <div className={props.classes.footerItems}>Built and designed by</div>
                 <div>Carly Schaaf</div>
                 <a href="https://github.com/Carly-Schaaf">Github</a>
                 <a href="https://www.linkedin.com/in/carlyschaaf/">LinkedIn</a>

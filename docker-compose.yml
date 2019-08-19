@@ -7,3 +7,8 @@ services:
     image: cschaaf1993/harvester
     ports:
       - "5000:5000"
+    environment:
+      NODE_ENV: production
+    env_file: 
+      - ./config/docker.env
+    
