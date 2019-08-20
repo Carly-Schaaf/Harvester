@@ -58,7 +58,12 @@ const ProduceIndex = (props) => {
 
         let plural;
         let display;
-        count > 1 ? plural = " types of" : "";
+        if (count > 1) {
+            plural = " types of";
+        } else {
+            plural = "";
+        }
+
         if (loading) {
             display = (
                 <BounceLoader css={loader} />

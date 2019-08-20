@@ -1,8 +1,8 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import Mutations from '../../graphql/mutations';
-const { NEW_PRODUCE } = Mutations;
 import Queries from '../../graphql/queries';
+const { NEW_PRODUCE } = Mutations;
 const { FETCH_ALL_PRODUCE } = Queries;
 
 class ProduceCreate extends React.Component {
