@@ -130,7 +130,7 @@ const ProduceDetail = ({ produce, classes, location }) => {
     const displayScore = score === 0 ? "No reviews yet" : generateStars(score, reviews.length);
     const photo = thumbnail ? thumbnail : "https://as1.ftcdn.net/jpg/02/30/26/76/500_F_230267677_1vZFvqpLu1Sk6fITUzii9BXqs6l8ZRJR.jpg";
     
-    if (location.pathname !== `/produces/${id}`) {
+    // if (location.pathname !== `/produces/${id}`) {
     return (
         <Paper id={id} key={Math.random()} square className={classes.root}>
             <ListItem className={classes.listItem} alignItems="flex-start">
@@ -139,11 +139,12 @@ const ProduceDetail = ({ produce, classes, location }) => {
             {renderFeatures({ ...rest })}
             <img className="produce-thumbnail" src={photo} alt={`${name} thumbnail`} />
         </Paper>)
-    } else {
-        return(
-            <ProduceShow produce={produce} />
-        )
-    }
+    } 
+    // else {
+    //     return(
+    //         <ProduceShow produce={produce} />
+    //     )
+    // }
     
 }
 
