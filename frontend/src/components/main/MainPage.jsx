@@ -8,10 +8,10 @@ import Button from '@material-ui/core/Button';
 import Queries from '../../graphql/queries';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
-const { FETCH_ALL_PRODUCE } = Queries;
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { withStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
+const { FETCH_ALL_PRODUCE } = Queries;
 
 const styles = theme => ({
     overrideTypography: {
