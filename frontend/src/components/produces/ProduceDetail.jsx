@@ -146,6 +146,6 @@ const ProduceDetail = ({ produce, classes, location }) => {
     //     )
     // }
     
-}
+// }
 
 export default withStyles(styles)(withRouter(ProduceDetail));
