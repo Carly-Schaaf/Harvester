@@ -58,8 +58,9 @@ ProduceSchema.statics.findWithFilters = async function (args) {
     //         let boundProduce = await this.findWithinBounds(args.bounds);
     //         return boundProduce;
     //     }
-    let produce = this.find({})
     const randRange = getRandomInRange(10, 15, 0)
+    const randOffset = getRandomInRange(1, 147, 0)
+    let produce = this.find({}).skip(randOffset)
     if (args.name !== "") {
         produce = await this.findByName(produce, args.name).limit(randRange);
     } else {

@@ -109,9 +109,7 @@ footer {
 }
 .form-container div {
   margin: 0px;
-}
-.form-container button {
-  margin-left: 10px;
+  margin-right: 10px;
 }
 @media screen and (max-width: 1010px) {
   .form-container {

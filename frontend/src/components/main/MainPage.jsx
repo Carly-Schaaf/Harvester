@@ -46,11 +46,16 @@ class MainPage extends React.Component {
         this.state = {
             currentLocation: "",
             search: "",
+            city: "",
             bounds: {
                 south: "",
                 east: "",
                 west: "",
                 north: ""
+            },
+            center:  {
+                lat: 37.8811226,
+                lng: -122.27595379999998
             },
             produce: [],
             loading: true,
@@ -58,20 +63,46 @@ class MainPage extends React.Component {
         this.clickedMarker = "";
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.history.push("/");
-        this.getLocation();
+        await this.getLocation();
+        this.setPosition();
     }
 
     getLocation() {
-        navigator.geolocation.getCurrentPosition(this.setPosition.bind(this))
+        navigator.geolocation.getCurrentPosition(this.setCurrentLocation.bind(this))
+
     }
 
-    setPosition(position) {
+    setCurrentLocation({coords}) {
+        let geocoder = new window.google.maps.Geocoder();
+        let latLng = new window.google.maps.LatLng(coords.latitude, coords.longitude)
+        geocoder.geocode({location: latLng}, (results, status) => {
+            if (status === "OK") {
+                let city;
+                results[0].address_components.forEach(component => {
+                    if (component.types.includes("locality")) {
+                        city = component.long_name;
+                    }
+                })
+                if (city) {
+                    this.setState({city: city})
+                }
+            }
+        })
+        this.setState({
+                center: {lat: coords.latitude,
+                lng: coords.longitude}
+            })
+        if (this.map) {
+            this.map.setCenter(this.state.center);
+        }
+    }
+
+    setPosition() {
         const mapOptions = {
             center: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
+                ...this.state.center
              },
             zoom: 14
         };
@@ -121,9 +152,23 @@ class MainPage extends React.Component {
        })
     }
 
-    handleSubmit(e, client) {
+    async handleSubmit(e, client) {
         e.preventDefault();
-        this.fetchProduce(client);
+        let geocoder = new window.google.maps.Geocoder();
+        let lat, lng;
+        geocoder.geocode({ address: this.state.city }, (results, status) => {
+            if (status === "OK") {
+                lat = results[0].geometry.location.lat();
+                lng = results[0].geometry.location.lng();
+                if (this.state.center.lat !== lat 
+                    && this.state.center.lng !== lng) {
+                        this.setState({center: { lat, lng }});
+                        this.map.setCenter({ lat, lng });
+                } else {
+                    this.fetchProduce(client);
+                }
+            }
+        })
     }
 
     handleClickAway() {
@@ -161,6 +206,16 @@ class MainPage extends React.Component {
                                                 variant="outlined"
                                                 className={classes.input}
                                                 onChange={this.update("search")}
+                                            />
+                                            <TextField
+                                                id="outlined-city-input"
+                                                label="Where?"
+                                                margin="normal"
+                                                fullWidth
+                                                value={this.state.city}
+                                                variant="outlined"
+                                                className={classes.input}
+                                                onChange={this.update("city")}
                                             />
                                             <Button type="submit" size="large" className={classes.button} variant="outlined">
                                                 Submit
