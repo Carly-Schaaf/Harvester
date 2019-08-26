@@ -30,10 +30,12 @@ const RootQuery = new GraphQLObjectType({
                     west: { type: GraphQLFloat },
                     east: { type: GraphQLFloat },
                     north: { type: GraphQLFloat },
-                    name: { type: GraphQLString }
+                    name: { type: GraphQLString },
+                    centerLat: { type: GraphQLFloat },
+                    centerLng: { type: GraphQLFloat }
                 },
-            resolve(parentValue, {south, west, east, north, name}) {
-                return Produce.findWithFilters({bounds: {south, west, east, north }, name})
+            async resolve(parentValue, {south, west, east, north, name, centerLat, centerLng}) {
+                return Produce.findWithFilters({ bounds: { south, west, east, north }, name, centerLat, centerLng });
             }
         },
         produce: {

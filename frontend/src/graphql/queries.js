@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 export default {
     FETCH_ALL_PRODUCE: gql`
-        query FetchAllProduce($north: Float, $south: Float, $west: Float, $east: Float, $name: String ) {
-            produces(north: $north, south: $south, west: $west, east: $east, name: $name) {
+        query FetchAllProduce($north: Float, $south: Float, $west: Float, $east: Float, $name: String, $centerLat: Float, $centerLng: Float ) {
+            produces(north: $north, south: $south, west: $west, east: $east, name: $name, centerLat: $centerLat, centerLng: $centerLng) {
                 id,
                 name,
                 type,

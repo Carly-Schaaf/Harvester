@@ -40,19 +40,16 @@ const ProduceIndex = (props) => {
         const listItems = () => {
             return props.produce.map((produce, i) => {
                 return(
-                    <Link to={`/produces/${produce.id}`}>
-                        <ProduceDetail produce={produce} key={i} />
+                    <Link key={i} to={`/produces/${produce.id}`}>
+                        <ProduceDetail produce={produce} />
                     </Link>
                     )
                 });
         }
         const [count, setCount] = React.useState(props.produce.length);
-        const [loading, setLoading] = React.useState(true);
+        // const [loading, setLoading] = React.useState(props.loading);
 
         React.useEffect(() => {
-            if (props.produce.length > 0) {
-                setLoading(false);
-            }
             setCount(props.produce.length);
         }, [props.produce])
 
@@ -64,7 +61,7 @@ const ProduceIndex = (props) => {
             plural = "";
         }
 
-        if (loading) {
+        if (props.loading) {
             display = (
                 <BounceLoader css={loader} />
             )

@@ -7,7 +7,6 @@ const validateProduceInput = require('../../validation/produces');
 
 router.get('/', (req, res) => {
     const { north, east, south, west } = req.query;
-    debugger
     Produce.find({loc: {
         $geoIntersects: {
             $geometry: {

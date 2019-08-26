@@ -73,7 +73,7 @@ class MainPage extends React.Component {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
              },
-            zoom: 10
+            zoom: 14
         };
 
         const map = document.getElementById("map");
@@ -98,16 +98,12 @@ class MainPage extends React.Component {
         this.clickedMarker = nodeId;
     }
 
-
-    // transitionUp() {
-    //     const searchInput = document.getElementsByClassName("search-field")[0];
-    // }
-
     update(field) {
         return (e) => {this.setState({[field]: e.target.value})}
     }
 
     fetchProduce(client) {
+        const center = this.map.getCenter();
        return client.query({
             query: FETCH_ALL_PRODUCE,
             variables: {
@@ -115,11 +111,13 @@ class MainPage extends React.Component {
                 east: this.state.bounds.east,
                 west: this.state.bounds.west,
                 north: this.state.bounds.north,
-                name: this.state.search
+                name: this.state.search,
+                centerLat: center.lat(),
+                centerLng: center.lng()
             }
        }).then(({ data }) => {
            this.MarkerManager.updateMarkers(data.produces);
-           this.setState({ produce: data.produces })
+           this.setState({ produce: data.produces, loading: false })
        })
     }
 
@@ -170,7 +168,7 @@ class MainPage extends React.Component {
                                         </div>
                                     </form>
                                 </Paper>
-                                <ProduceIndex produce={this.state.produce} />
+                                <ProduceIndex loading={this.state.loading} produce={this.state.produce} />
                             </div>
                         </div>
                     </div>

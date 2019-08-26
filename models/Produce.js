@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./Review');
+const axios = require('axios');
 
 const ProduceSchema = new Schema({
     user: {
@@ -48,13 +49,41 @@ const ProduceSchema = new Schema({
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'reviews' }],
 });
 
-ProduceSchema.statics.findWithFilters = function (args) {
-        const boundProduce = this.findWithinBounds(args.bounds);
-        if (args.name !== "") {
-            return this.findByName(boundProduce, args.name)
-        } else {
-            return boundProduce.then(produce => produce);
-        }
+ProduceSchema.statics.findWithFilters = async function (args) {
+    // for non-random data, use below code:
+    // if (args.name !== "") {
+    //         let boundProduce = this.findWithinBounds(args.bounds);
+    //         return this.findByName(boundProduce, args.name)
+    //     } else {
+    //         let boundProduce = await this.findWithinBounds(args.bounds);
+    //         return boundProduce;
+    //     }
+    let produce = this.find({})
+    const randRange = getRandomInRange(10, 15, 0)
+    if (args.name !== "") {
+        produce = await this.findByName(produce, args.name).limit(randRange);
+    } else {
+        produce = await produce.limit(randRange);
+    }
+    return this.generateRandomCoords(args.bounds, produce);
+}
+
+function getRandomInRange(from, to, fixed = 13) {
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+    // .toFixed() returns string, so ' * 1' is a trick to convert to number
+}
+
+ProduceSchema.statics.generateRandomCoords = async function (bounds, produce) {
+    return produce.map(produce => {
+        produce.lat = getRandomInRange(bounds.south, bounds.north);
+        produce.lng = getRandomInRange(bounds.west, bounds.east);
+        // check if in water -- need to upgrade to paid plan
+        // return axios.get(`https://api.onwater.io/api/v1/results/${produce.lat},${produce.lng}?access_token=zkEro3t2A7KgexdCBuXP`)
+        // .then(res => {
+        //     return res.water
+        // })
+        return produce;
+    })
 }
 
 ProduceSchema.statics.findWithinBounds = function (bounds) {
@@ -97,7 +126,6 @@ ProduceSchema.statics.avgTotalReviewScore = async function (produceId) {
         
 ProduceSchema.statics.findByName = function (produce, name) {
    return produce.find({ name: { "$regex": name, "$options": "i" }})
-        .then(produce => produce)
 }
 
 module.exports = mongoose.model('produce', ProduceSchema);
