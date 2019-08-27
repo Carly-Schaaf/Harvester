@@ -30,12 +30,28 @@ export default {
                     lat: $lat,
                     lng: $lng
                 ) {
+                id,
+                name,
+                type,
+                name,
+                type,
+                public,
+                accessible,
+                ownerPermission,
+                description,
+                thumbnail,
+                quality,
+                abundance,
+                date,
+                lat,
+                lng,
+                score,
+                reviews {
+                    comments,
                     id,
-                    name,
-                    type,
-                    lat,
-                    lng
+                    accessible
                 }
+            }
         }
     `,
     NEW_REVIEW: gql`

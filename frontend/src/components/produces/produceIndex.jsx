@@ -47,7 +47,6 @@ const ProduceIndex = (props) => {
                 });
         }
         const [count, setCount] = React.useState(props.produce.length);
-        // const [loading, setLoading] = React.useState(props.loading);
 
         React.useEffect(() => {
             setCount(props.produce.length);

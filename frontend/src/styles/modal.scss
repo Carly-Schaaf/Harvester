@@ -1,0 +1,28 @@
+.modal-background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(72, 72, 72, 0.5);
+  z-index: 10;
+}
+
+.modal-screen {
+    color: rgb(72, 72, 72);
+    margin: 0px;
+    position: absolute;
+    background: rgb(255, 255, 255);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    min-width: 570px;
+    border: 2px solid rgba(102, 205, 170, .2);
+    border-radius: 5px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    width: 400px;
+    form {
+      padding: 0em 3em 3em 3em;
+    }
+}

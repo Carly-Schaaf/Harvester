@@ -11,6 +11,7 @@ import Add from '@material-ui/icons/Add';
 import HighQuality from '@material-ui/icons/HighQuality';
 import Star from '@material-ui/icons/StarRate';
 import StarHalf from '@material-ui/icons/StarHalf';
+import StarBorder from '@material-ui/icons/StarBorder';
 import ProduceShow from './ProduceShow';
 
 const styles = theme => ({
@@ -18,7 +19,7 @@ const styles = theme => ({
         "margin-bottom": "20px",
         display: "flex",
         "align-items": "flex-start",
-        justifyContent: "space-between",
+        justifyContent: "baseline",
         padding: "1em 0",
         '&:hover': {
             background: "rgba(102, 205, 170, .3)",
@@ -27,11 +28,8 @@ const styles = theme => ({
     listItem: {
         "display": "flex",
         "flex-direction": "column",
-        width: "30%",
+        width: "40%",
         "padding-top": "0px"
-    },
-    typography: {
-        width: "100px"
     },
     icon: {
         fontSize: "15px",
@@ -112,11 +110,15 @@ const ProduceDetail = ({ produce, classes, location }) => {
     const generateStars = (score, numReviews) => {
         const stars = [];
         let remainder = score;
-        for (let index = 1; index < score; index++) {
+        for (let index = 1; index <= score; index++) {
             stars.push(<Star key={Math.random()} className={classes.star} />)
             remainder -= 1;
         }
         if (remainder > 0) { stars.push(<StarHalf key={Math.random()} className={classes.starHalf} />) }
+        const emptyStars = 5 - stars.length;
+        for (let index = 0; index < emptyStars; index++) {
+            stars.push(<StarBorder key={Math.random()} className={classes.starHalf} />)
+        }
         const reviewString = numReviews > 1 ? "reviews" : "review";
         stars.push(<br key={Math.random()} />);
         stars.push(<span key={Math.random()}>{numReviews} {reviewString}</span>)
@@ -128,7 +130,6 @@ const ProduceDetail = ({ produce, classes, location }) => {
     }
     
     const displayScore = score === 0 ? "No reviews yet" : generateStars(score, reviews.length);
-    const photo = thumbnail ? thumbnail : "https://as1.ftcdn.net/jpg/02/30/26/76/500_F_230267677_1vZFvqpLu1Sk6fITUzii9BXqs6l8ZRJR.jpg";
     
     // if (location.pathname !== `/produces/${id}`) {
     return (
@@ -137,7 +138,7 @@ const ProduceDetail = ({ produce, classes, location }) => {
                 <ListItemText primary={name} secondary={displayScore} />
             </ListItem>
             {renderFeatures({ ...rest })}
-            <img className="produce-thumbnail" src={photo} alt={`${name} thumbnail`} />
+            <img className="produce-thumbnail" src={thumbnail} alt={`${name} thumbnail`} />
         </Paper>)
     } 
     // else {

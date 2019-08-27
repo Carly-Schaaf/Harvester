@@ -17,6 +17,7 @@ export default class MarkerManager {
         window.google.maps.event.addListener(marker, "click", (event) => {
             if (this.prevNode !== "") {this.prevNode.style.backgroundColor = ""};
             const node = document.getElementById(produce.id);
+            debugger
             this.prevNode = node;
             const scrollBox = document.getElementById("scroll-container");
             node.style.backgroundColor = "rgba(102, 205, 170, .3)";

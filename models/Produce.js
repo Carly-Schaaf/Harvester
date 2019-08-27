@@ -15,7 +15,6 @@ const ProduceSchema = new Schema({
     },
     type: {
         type: String,
-        required: true
     },
     public: {
         type: Boolean
@@ -60,11 +59,11 @@ ProduceSchema.statics.findWithFilters = async function (args) {
     //     }
     const randRange = getRandomInRange(10, 15, 0)
     const randOffset = getRandomInRange(1, 147, 0)
-    let produce = this.find({}).skip(randOffset)
+    let produce = this.find({})
     if (args.name !== "") {
         produce = await this.findByName(produce, args.name).limit(randRange);
     } else {
-        produce = await produce.limit(randRange);
+        produce = await produce.skip(randOffset).limit(randRange);
     }
     return this.generateRandomCoords(args.bounds, produce);
 }

@@ -7,10 +7,12 @@ import Signup from './session/signup_container';
 import ProduceCreate from './create/ProduceCreate';
 import Header from './main/Header';
 import Footer from './main/Footer';
+import Modal from './main/Modal';
 
 const App = () => (
     <div className="main">
         <Header />
+        <Modal />
         <Switch>
             <Route path="/" component={ MainPage } />
             <Redirect to="/" />

@@ -65,7 +65,6 @@ const mutations = new GraphQLObjectType({
                 lng: { type: GraphQLFloat }
             },
             resolve(parentValue, args) {
-                console.log(parentValue);
                 return User.findOne({}).then(user => {
                     return new Produce({ ...args, user: user.id }).save();
                 })

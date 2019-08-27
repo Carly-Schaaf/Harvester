@@ -1,42 +1,25 @@
 import React from 'react';
-import LoginFormContainer from '../session/login_container';
-import SignupFormContainer from '../session/signup_container';
-import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import ProduceCreate from '../create/ProduceCreate';
 
 class Modal extends React.Component {
+    
     render() {
-        if (this.props.loggedIn) {
+        const { classes } = this.props;
+        if (this.props.location.pathname !== "/add-produce") {
             return null;
-        }
-        const { modal } = this.props;
-
-        switch (modal) {
-            case "login":
-                return(
-                    <div className="modal-background">
-                        <div className="modal-screen">
-                            <LoginFormContainer />
-                        </div>
+        } else {
+            return(
+                <div className="modal-background" onClick={() => this.props.history.push("/")}>
+                    <div className="modal-screen" onClick={(e) => e.stopPropagation()}>
+                        <ProduceCreate />
                     </div>
-                )
-            case "signup":
-                return(
-                    <div className="modal-background">
-                        <div className="modal-screen">
-                            <SignupFormContainer />
-                        </div>
-                    </div>
-                )
-            default:
-                return null;
+                </div>
+            )
         }
-
+        
     }
 }
 
-const mstp = (state) => ({
-    modal: state.ui.modal,
-    loggedIn: state.session.isAuthenticated
-})
 
-export default connect(mstp, null)(Modal);
+export default (withRouter(Modal));

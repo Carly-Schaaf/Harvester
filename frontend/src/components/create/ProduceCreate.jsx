@@ -2,101 +2,252 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import Mutations from '../../graphql/mutations';
 import Queries from '../../graphql/queries';
+import { Link, withRouter } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/styles';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Typography } from '@material-ui/core';
+import Slider from '@material-ui/core/Slider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import Close from '@material-ui/icons/Close';
+
 const { NEW_PRODUCE } = Mutations;
 const { FETCH_ALL_PRODUCE } = Queries;
+
+const styles = theme => ({
+    overrideTypography: {
+        fontFamily: "'Roboto Mono', monospace"
+    },
+    input: {
+        fontFamily: "'Roboto Mono', monospace !important",
+    },
+    paper: {
+        padding: "1.5em 2em",
+        "box-shadow": "none",
+        border: "1px solid rgba(0,0,0,0.12)",
+        marginBottom: "2%"
+    },
+    button: {
+        backgroundColor: "rgba(102, 205, 170, .3)"
+
+    },
+    icon: {
+
+    }
+});
 
 class ProduceCreate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: "",
-            type: "",
-            public: "",
-            accessible: "",
-            ownerPermission: "",
-            quality: "",
-            abundance: "",
-            user: "",
-            message: "",
-            lat: "",
-            lng: ""
+            public: false,
+            onwerPermission: false,
+            accessible: 0,
+            quality: 0,
+            abundance: 0,
+            city: "",
+            messages: []
+        }
+    }
+
+    rendermessages() {
+        if (!this.state.messages.length > 0) return null;
+        return this.state.messages.map((error, i) => {
+            return(
+                <ListItem key={i} className={this.props.classes.listItem} alignItems="center">
+                    <ListItemText primary={error} />
+                </ListItem>
+            )
+        })
+    }
+    
+    update(field) {
+        return e => {
+            this.setState({ [field]: e.target.checked })
         }
     }
 
     handleSubmit(e, newProduce) {
         e.preventDefault();
-        const name = this.state.name;
-        newProduce({
-            variables: {
-                name: name,
-                type: this.state.type,
-                public: true,
-                accessible: parseInt(this.state.accessible, 10),
-                ownerPermission: parseInt(this.state.ownerPermission, 10),
-                quality: parseInt(this.state.quality, 10),
-                abundance: parseInt(this.state.abundance, 10),
-                lat: parseInt(this.state.lat, 10),
-                lng: parseInt(this.state.lng, 10)
-                }
-        }).then(data => {
-            console.log(data);
-            this.setState({
-                message: `${name.toUpperCase} is now harvestable. Thanks for adding to the public repository!`,
-                name: "",
-                type: "",
-                public: "",
-                accessible: "",
-                ownerPermission: "",
-                quality: "",
-                abundance: "",
-                lat: "",
-                lng: ""
-            })
+        this.setState({messages: []});
+        let that = this;
+        let geocoder = new window.google.maps.Geocoder();
+        let lat, lng;
+        geocoder.geocode({ address: this.state.city }, (results, status) => {
+            if (status === "OK") {
+                lat = results[0].geometry.location.lat();
+                lng = results[0].geometry.location.lng();
+                let newState = Object.assign({}, this.state);
+                newState.name = newState.name.charAt(0).toUpperCase() + newState.name.slice(1);
+                delete newState.city;
+                delete newState.messages;
+                newProduce({
+                    variables: {
+                        ...Object.assign(newState, { lat }, { lng })
+                    }
+                }).then(({data: {newProduce}}, error) => {
+                    that.setState({
+                        name: "",
+                        public: false,
+                        onwerPermission: false,
+                        accessible: 0,
+                        quality: 0,
+                        abundance: 0,
+                        city: "",
+                        messages: [`Success! ${newProduce.name} has been added to Harvester.`]
+                    })
+                })
+            } else {
+                that.setState({messages: ["Hmm, that address doesn't seem to be correct."]})
+            }
+        })
+
+
+        
+    }
+
+    updateCache(cache, newProduce) {
+        const { produce } = cache.readQuery({ query: FETCH_ALL_PRODUCE });
+        cache.writeQuery({
+            query: FETCH_ALL_PRODUCE,
+            data: { produces: produce.concat([newProduce])}
         })
     }
 
-    updateCache(cache, data) {
-        let allProduce;
-        try {
-            allProduce = cache.readQuery({ query: FETCH_ALL_PRODUCE });
-        } catch (err) {
-            return;
-        }
-        if (allProduce) {
-            cache.writeQuery({
-                query: FETCH_ALL_PRODUCE,
-                data: { produces: allProduce.concat(data.produces)}
-            })
-        }
-    }
-
-    update(field) {
-        return (e) => {this.setState({[field]: e.target.value})}
-    }
-
     render() {
-        return(
-            <Mutation update={(cache, data) => {this.updateCache(cache, data)}} mutation={ NEW_PRODUCE }>
-                {(newProduce, { data }) => (
-                    <div>
-                        <form className="flex column left-start form" onSubmit={(e) => {this.handleSubmit(e, newProduce)}}>
-                            <label>Name of item: <input type="text" onChange={this.update("name")} value={this.state.name} /></label> 
-                            <label>Fruit or vegetable? <input type="text" onChange={this.update("type")} value={this.state.type} /></label>
-                            <label>Is this on public land? <input type="text" onChange={this.update("public")} value={this.state.public}/></label>
-                            <label>How accessible would you rate this spot? <input type="text" onChange={this.update("accessible")} value={this.state.accessible}/></label>
-                            <label>If on private land, does the owner seem cool with harvesters ? <input type="text" onChange={this.update("ownerPermission")} value={this.state.ownerPermission} /></label >
-                            <label>What's the quality of this item? <input type="text" onChange={this.update("quality")} value={this.state.quality}/></label>
-                            <label>How abundant is this item? <input type="text" onChange={this.update("abundance")} value={this.state.abundance} /></label >
-                            <label>Lat: <input type="text" onChange={this.update("lat")} value={this.state.lat} /></label >
-                            <label>Lng: <input type="text" onChange={this.update("lng")} value={this.state.lng} /></label >
-                            <button>Submit!</button>
-                        </form>
-                        <p>{this.state.message}</p>
-                    </div>
-                )}
+        const { classes } = this.props;
+   
+        return (
+            <Mutation mutation={NEW_PRODUCE}> 
+            {/* update={(cache, { data: { newProduce }}) => this.updateCache(cache, newProduce)} */}
+                {(newProduce, { data }) => {
+                    return(
+                        <div className="modal-background" onClick={() => this.props.history.push("/")}>
+                            <div className="modal-screen" onClick={(e) => e.stopPropagation()}>                             
+                                    <div className="flex right">
+                                        <IconButton onClick={() => this.props.history.push("/")}>
+                                            <Close />
+                                        </IconButton>
+                                    </div> 
+                                <form onSubmit={(e) => this.handleSubmit(e, newProduce)}>
+                                    <TextField
+                                        required
+                                        label="Name of produce"
+                                        margin="normal"
+                                        fullWidth
+                                        variant="outlined"
+                                        value={this.state.name}
+                                        onChange={(e) => this.setState({ name: e.target.value })}
+                                    />
+                                    <TextField
+                                        required
+                                        label="Where? Enter an address"
+                                        margin="normal"
+                                        fullWidth
+                                        variant="outlined"
+                                        className={classes.input}
+                                        value={this.state.city}
+                                        onChange={(e) => this.setState({ city: e.target.value })}
+                                    // add google autocomplete
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                required
+                                                checked={this.state.public}
+                                                onChange={this.update('public')}
+                                                disabled={this.state.onwerPermission}
+                                            />}
+                                        label="Is this site on public grounds?"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                required
+                                                checked={this.state.onwerPermission}
+                                                disabled={this.state.public}
+                                                onChange={this.update('onwerPermission')}
+                                            />}
+                                        label="Has the owner consented to us harvesting their produce?"
+                                    />
+                                    <br />
+                                    <br />
+                                    <Typography id="accessible" gutterBottom >
+                                        How accessible is this site?
+                                    </Typography>
+                                    <br />
+                                    <br />
+                                    <Slider
+                                        aria-labelledby="accessible"
+                                        defaultValue={this.state.accessible}
+                                        value={this.state.accessible}
+                                        valueLabelDisplay="on"
+                                        step={1}
+                                        marks
+                                        min={0}
+                                        max={5}
+                                        onChange={(e, value) => this.setState({ 'accessible': value })}
+                                        className={classes.slider}
+                                    />
+                                    <br />
+                                    <br />
+                                    <Typography id="quality" gutterBottom >
+                                        What's the quality of this produce?
+                                    </Typography>
+                                    <br />
+                                    <br />
+                                    <Slider
+                                        aria-labelledby="quality"
+                                        defaultValue={this.state.quality}
+                                        value={this.state.quality}
+                                        valueLabelDisplay="on"
+                                        step={1}
+                                        marks
+                                        min={0}
+                                        max={5}
+                                        onChange={(e, value) => this.setState({ 'quality': value })}
+                                        className={classes.slider}
+                                    />
+                                    <br />
+                                    <br />
+                                    <Typography id="abundance" gutterBottom >
+                                        How abundant is this produce?
+                                    </Typography>
+                                    <br />
+                                    <br />
+                                    <Slider
+                                        aria-labelledby="abundance"
+                                        defaultValue={this.state.abundance}
+                                        value={this.state.abundance}
+                                        valueLabelDisplay="on"
+                                        step={1}
+                                        marks
+                                        min={0}
+                                        max={5}
+                                        onChange={(e, value) => this.setState({ 'abundance': value })}
+                                        className={classes.slider}
+                                    />
+                                    <br />
+                                    <br />
+                                    <Button type="submit" size="large" className={classes.button} variant="outlined">
+                                        Submit
+                                </Button>
+                                </form>
+                                {this.rendermessages()}
+                            </div>
+                        </div>
+                    )
+                }}
             </Mutation>
         )
+
     }
 }
 
-export default ProduceCreate;
+
+export default withStyles(styles)(withRouter(ProduceCreate));

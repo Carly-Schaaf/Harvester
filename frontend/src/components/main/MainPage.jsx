@@ -147,8 +147,10 @@ class MainPage extends React.Component {
                 centerLng: center.lng()
             }
        }).then(({ data }) => {
-           this.MarkerManager.updateMarkers(data.produces);
-           this.setState({ produce: data.produces, loading: false })
+           const produces = data.produces.filter(produce => produce.thumbnail);
+           console.log(produces)
+           this.MarkerManager.updateMarkers(produces);
+           this.setState({ produce: produces, loading: false })
        })
     }
 
@@ -156,19 +158,23 @@ class MainPage extends React.Component {
         e.preventDefault();
         let geocoder = new window.google.maps.Geocoder();
         let lat, lng;
-        geocoder.geocode({ address: this.state.city }, (results, status) => {
-            if (status === "OK") {
-                lat = results[0].geometry.location.lat();
-                lng = results[0].geometry.location.lng();
-                if (this.state.center.lat !== lat 
-                    && this.state.center.lng !== lng) {
-                        this.setState({center: { lat, lng }});
-                        this.map.setCenter({ lat, lng });
-                } else {
-                    this.fetchProduce(client);
+        if (this.state.city) {
+            geocoder.geocode({ address: this.state.city }, (results, status) => {
+                if (status === "OK") {
+                    lat = results[0].geometry.location.lat();
+                    lng = results[0].geometry.location.lng();
+                    if (this.state.center.lat !== lat 
+                        && this.state.center.lng !== lng) {
+                            this.setState({center: { lat, lng }});
+                            this.map.setCenter({ lat, lng });
+                    } else {
+                        this.fetchProduce(client);
+                    }
                 }
-            }
-        })
+            })
+        } else {
+            this.fetchProduce(client);
+        }
     }
 
     handleClickAway() {

@@ -62,10 +62,13 @@ input[type="submit"] {
   clear: both;
 }
 
-
 .flex {
     display: flex;
     align-items: center;
+}
+
+.right {
+      justify-content: flex-end;
 }
 
 .top {
