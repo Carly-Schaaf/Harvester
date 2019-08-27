@@ -13,13 +13,21 @@ import Star from '@material-ui/icons/StarRate';
 import StarHalf from '@material-ui/icons/StarHalf';
 import StarBorder from '@material-ui/icons/StarBorder';
 import ProduceShow from './ProduceShow';
+import Button from '@material-ui/core/Button';
+import { withApollo } from "react-apollo";
+import { useQuery } from '@apollo/react-hooks';
+import Queries from '../../graphql/queries';
+const { FETCH_REVIEWS } = Queries;
+
 
 const styles = theme => ({
     root: {
-        "margin-bottom": "20px",
         display: "flex",
         "align-items": "flex-start",
         justifyContent: "baseline",
+    },
+    paper: {
+        "margin-bottom": "20px",
         padding: "1em 0",
         '&:hover': {
             background: "rgba(102, 205, 170, .3)",
@@ -45,12 +53,20 @@ const styles = theme => ({
         bottom: '2.5px',
         fontSize: "15px",
     },
+    button: {
+        marginTop: '10px'
+    }
 });
 
 
-const ProduceDetail = ({ produce, classes, location }) => {
-    const { id, name, score, reviews, thumbnail, ...rest } = produce;
-
+const ProduceDetail = ({classes, client, produce, location}) => {
+    const { id, name, score, thumbnail, ...rest } = produce;
+    const { loading, error, data } = useQuery(FETCH_REVIEWS, {
+        variables: { produceId: id },
+        client
+    });
+    if (loading) { return null };
+    const reviews = data.reviews;
     const renderFeatures = (args) => {
         const { abundance, accessible, ownerPermission, quality } = args;
         const publicLand = args.public;
@@ -128,25 +144,39 @@ const ProduceDetail = ({ produce, classes, location }) => {
             </span>
         )
     }
-    
+    const showMore = () => {
+        if (location.pathname.includes(id)) {
+            return(
+                <ProduceShow produce={produce} reviews={reviews} />
+            )
+        } else {
+            return null;
+        }
+    }
     const displayScore = score === 0 ? "No reviews yet" : generateStars(score, reviews.length);
     
-    // if (location.pathname !== `/produces/${id}`) {
-    return (
-        <Paper id={id} key={Math.random()} square className={classes.root}>
-            <ListItem className={classes.listItem} alignItems="flex-start">
-                <ListItemText primary={name} secondary={displayScore} />
-            </ListItem>
-            {renderFeatures({ ...rest })}
-            <img className="produce-thumbnail" src={thumbnail} alt={`${name} thumbnail`} />
-        </Paper>)
-    } 
-    // else {
-    //     return(
-    //         <ProduceShow produce={produce} />
-    //     )
-    // }
-    
-// }
+        return (
+            <Paper id={id} key={Math.random()} square className={classes.paper}>
+                <div className={classes.root}>
+                    <ListItem className={classes.listItem} alignItems="flex-start">
+                        <ListItemText primary={name} secondary={displayScore} />
+                        <div>
+                            <Button onClick={(e) => { 
+                                e.preventDefault(); 
+                                window.open(`https://www.google.com/maps/search/?api=1&query=${produce.lat},${produce.lng}`);
+                            }} size="small" 
+                            className={classes.button} variant="outlined">
+                                Directions
+                            </Button>
+                        </div>
+                    </ListItem>
+                    {renderFeatures({ ...rest })}
+                    <img className="produce-thumbnail" src={thumbnail} alt={`${name} thumbnail`} />
+                </div>
+                {showMore()}
+            </Paper>
+            )
 
-export default withStyles(styles)(withRouter(ProduceDetail));
+}
+
+export default withApollo(withStyles(styles)(withRouter(ProduceDetail)));

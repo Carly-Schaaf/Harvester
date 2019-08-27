@@ -56,12 +56,12 @@ export default {
     `,
     NEW_REVIEW: gql`
         mutation NewReview(
-            $public: Boolean, 
+            $public: Int, 
             $accessible: Int, 
             $ownerPermission: Int, 
             $quality: Int, 
             $abundance: Int,
-            $user: ID,
+            $user: String,
             $produce: ID,
             $comments: String) {
                 newReview(
@@ -74,9 +74,13 @@ export default {
                     produce: $produce,
                     comments: $comments
                 ) {
+                    comments,
                     id,
-                    comments
+                    user {
+                        username
+                    }
                 }
+                    
         }
     `
 }

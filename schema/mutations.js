@@ -108,16 +108,27 @@ const mutations = new GraphQLObjectType({
             args: {
                 comments: { type: GraphQLString },
                 produce: { type: GraphQLID },
-                public: { type: GraphQLBoolean },
+                public: { type: GraphQLInt },
                 accessible: { type: GraphQLInt },
                 ownerPermission: { type: GraphQLInt },
                 quality: { type: GraphQLInt },
                 abundance: { type: GraphQLInt },
                 date: { type: GraphQLString },
-                user: { type: GraphQLID }
+                user: { type: GraphQLString }
             },
-            resolve(parentValue, args) {
-                return new Review({ ...args }).save();
+            async resolve(parentValue, args) {
+                const user = new User({ username: args.user })
+                return new Review({ ...args, user: user }).save()
+                .then(review => {
+                    user.reviews.push(review);
+                    user.save();
+                    Produce.findById(review.produce)
+                    .then(produce => {
+                        produce.reviews.push(review);
+                        produce.save()
+                    })
+                    return review;
+                })
             }
         },
         deleteReview: {

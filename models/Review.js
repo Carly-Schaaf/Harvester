@@ -13,18 +13,16 @@ const ReviewSchema = new Schema({
         required: true
     },
     public: {
-        type: Boolean
+        type: Number
     },
     accessible: {
-        type: Number,
-        required: true
+        type: Number
     },
     ownerPermission: {
         type: Number
     },
     abundance: {
-        type: Number,
-        required: true
+        type: Number
     },
     comments: {
         type: String

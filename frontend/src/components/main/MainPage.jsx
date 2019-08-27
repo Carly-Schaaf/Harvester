@@ -134,7 +134,10 @@ class MainPage extends React.Component {
     }
 
     fetchProduce(client) {
-        const center = this.map.getCenter();
+        // window.location.search = `?south=${this.state.bounds.south}&east=${this.state.bounds.east}&west=${this.state.bounds.west}&north=${this.state.bounds.north}&name=${this.state.search}`
+        // this.props.history.push({
+        //     search: `?south=${this.state.bounds.south}&east=${this.state.bounds.east}&west=${this.state.bounds.west}&north=${this.state.bounds.north}&name=${this.state.search}`
+        // });
        return client.query({
             query: FETCH_ALL_PRODUCE,
             variables: {
@@ -142,13 +145,10 @@ class MainPage extends React.Component {
                 east: this.state.bounds.east,
                 west: this.state.bounds.west,
                 north: this.state.bounds.north,
-                name: this.state.search,
-                centerLat: center.lat(),
-                centerLng: center.lng()
+                name: this.state.search
             }
        }).then(({ data }) => {
            const produces = data.produces.filter(produce => produce.thumbnail);
-           console.log(produces)
            this.MarkerManager.updateMarkers(produces);
            this.setState({ produce: produces, loading: false })
        })

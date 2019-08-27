@@ -30,12 +30,10 @@ const RootQuery = new GraphQLObjectType({
                     west: { type: GraphQLFloat },
                     east: { type: GraphQLFloat },
                     north: { type: GraphQLFloat },
-                    name: { type: GraphQLString },
-                    centerLat: { type: GraphQLFloat },
-                    centerLng: { type: GraphQLFloat }
+                    name: { type: GraphQLString }
                 },
-            async resolve(parentValue, {south, west, east, north, name, centerLat, centerLng}) {
-                return Produce.findWithFilters({ bounds: { south, west, east, north }, name, centerLat, centerLng });
+            async resolve(parentValue, {south, west, east, north, name}) {
+                return Produce.findWithFilters({ bounds: { south, west, east, north }, name });
             }
         },
         produce: {
@@ -47,8 +45,9 @@ const RootQuery = new GraphQLObjectType({
         },
         reviews: {
             type: new GraphQLList(ReviewType),
-            resolve() {
-                return Review.find({});
+            args: { produceId: { type: new GraphQLNonNull(GraphQLID) } },
+            resolve(parentValue, { produceId }) {
+                return Review.find({produce: produceId});
             }
         },
         review: {

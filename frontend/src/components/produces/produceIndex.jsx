@@ -40,7 +40,7 @@ const ProduceIndex = (props) => {
         const listItems = () => {
             return props.produce.map((produce, i) => {
                 return(
-                    <Link key={i} to={`/produces/${produce.id}`}>
+                    <Link key={i} to={`/produces/${produce.id}?`}>
                         <ProduceDetail produce={produce} />
                     </Link>
                     )

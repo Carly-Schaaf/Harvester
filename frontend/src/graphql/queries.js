@@ -2,11 +2,9 @@ import gql from 'graphql-tag';
 
 export default {
     FETCH_ALL_PRODUCE: gql`
-        query FetchAllProduce($north: Float, $south: Float, $west: Float, $east: Float, $name: String, $centerLat: Float, $centerLng: Float ) {
-            produces(north: $north, south: $south, west: $west, east: $east, name: $name, centerLat: $centerLat, centerLng: $centerLng) {
+        query FetchAllProduce($north: Float, $south: Float, $west: Float, $east: Float, $name: String) {
+            produces(north: $north, south: $south, west: $west, east: $east, name: $name) {
                 id,
-                name,
-                type,
                 name,
                 type,
                 public,
@@ -23,28 +21,23 @@ export default {
                 reviews {
                     comments,
                     id,
-                    accessible
+                    user {
+                        username
+                    }
                 }
             }
         }
     `,
     FETCH_SINGLE_PRODUCE: gql`
-    query FetchProduce($id: ID) {
+    query FetchProduce($id: ID!) {
         produce(id: $id) {
             id,
             name,
-            type,
-            name,
-            type,
             public,
             accessible,
             ownerPermission,
             quality,
             abundance,
-            date,
-            user {
-                username
-            },
             reviews {
                 comments,
                 user {
@@ -67,6 +60,17 @@ export default {
             produces {
                 name
             }
+        }
+    }
+    `,
+    FETCH_REVIEWS: gql`
+    query FetchReviews($produceId: ID!) {
+        reviews(produceId: $produceId) {
+            id,
+            user {
+                username
+            },
+            comments
         }
     }
     `

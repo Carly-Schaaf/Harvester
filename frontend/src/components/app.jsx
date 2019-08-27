@@ -12,10 +12,10 @@ import Modal from './main/Modal';
 const App = () => (
     <div className="main">
         <Header />
-        <Modal />
+        <Route path="/" component={ MainPage } />
         <Switch>
-            <Route path="/" component={ MainPage } />
-            <Redirect to="/" />
+            <Route path="/produces/:produceId/add-review" component={ Modal } />
+            <Route path="/add-produce" component={ Modal } />
         </Switch>
         <Footer />
     </div>

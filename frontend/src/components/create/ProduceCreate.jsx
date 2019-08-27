@@ -127,8 +127,7 @@ class ProduceCreate extends React.Component {
             {/* update={(cache, { data: { newProduce }}) => this.updateCache(cache, newProduce)} */}
                 {(newProduce, { data }) => {
                     return(
-                        <div className="modal-background" onClick={() => this.props.history.push("/")}>
-                            <div className="modal-screen" onClick={(e) => e.stopPropagation()}>                             
+                        <div>                             
                                     <div className="flex right">
                                         <IconButton onClick={() => this.props.history.push("/")}>
                                             <Close />
@@ -236,10 +235,9 @@ class ProduceCreate extends React.Component {
                                     <br />
                                     <Button type="submit" size="large" className={classes.button} variant="outlined">
                                         Submit
-                                </Button>
+                                    </Button>
                                 </form>
                                 {this.rendermessages()}
-                            </div>
                         </div>
                     )
                 }}
