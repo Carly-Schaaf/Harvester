@@ -203,7 +203,6 @@ class ReviewCreate extends React.Component {
                                                         {produce.name}
                                                     </Typography>
                                                     {this.renderPublic(produce.ownerPermission)}
-                                                    <br />
                                                     <Typography id="accessible" gutterBottom >
                                                         How accessible was this site?
                                                     </Typography>
@@ -222,7 +221,6 @@ class ReviewCreate extends React.Component {
                                                         className={classes.slider}
                                                     />
                                                     <br />
-                                                    <br />
                                                     <Typography id="quality" gutterBottom >
                                                         What was the quality of this produce?
                                                     </Typography>
@@ -240,7 +238,6 @@ class ReviewCreate extends React.Component {
                                                         onChange={(e, value) => this.setState({ 'quality': value })}
                                                         className={classes.slider}
                                                     />
-                                                    <br />
                                                     <br />
                                                     <Typography id="abundance" gutterBottom >
                                                         How abundant was this produce?
