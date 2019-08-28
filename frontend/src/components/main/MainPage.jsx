@@ -129,10 +129,6 @@ class MainPage extends React.Component {
     }
 
     fetchProduce(client) {
-        // window.location.search = `?south=${this.state.bounds.south}&east=${this.state.bounds.east}&west=${this.state.bounds.west}&north=${this.state.bounds.north}&name=${this.state.search}`
-        // this.props.history.push({
-        //     search: `?south=${this.state.bounds.south}&east=${this.state.bounds.east}&west=${this.state.bounds.west}&north=${this.state.bounds.north}&name=${this.state.search}`
-        // });
        return client.query({
             query: FETCH_ALL_PRODUCE,
             variables: {
