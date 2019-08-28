@@ -3,7 +3,7 @@
 
 With Harvester, you can find and harvest local produce right in your own neighborhood. This project was built with Node.js, ReactJS, Apollo Client, GraphQL, and MongoDB.
 
-![index](https://user-images.githubusercontent.com/39382120/63894648-03f84d00-c9a2-11e9-92f5-b34d2f8deb8b.png)
+![show](https://user-images.githubusercontent.com/39382120/63894649-03f84d00-c9a2-11e9-856d-186842ab7066.png)
 
 ### Technologies used
  1.	Node.js
@@ -20,7 +20,7 @@ With Harvester, you can find and harvest local produce right in your own neighbo
 * Google Maps API & Google Geocoding API
 * Wikipedia API to fetch produce photos and description
 
-![show](https://user-images.githubusercontent.com/39382120/63894649-03f84d00-c9a2-11e9-856d-186842ab7066.png)
+![index](https://user-images.githubusercontent.com/39382120/63894648-03f84d00-c9a2-11e9-92f5-b34d2f8deb8b.png)
 
 Leveraging GraphQL’s easy integration of multiple data sources, I incorporated the Wikipedia API in order to add photos and a description to user-entered produce. This entailed adding "Description" and "Thumbnail" fields and their respective resolve functions to my GraphQL ProduceType (pictured below). 
 
