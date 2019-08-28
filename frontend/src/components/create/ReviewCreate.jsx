@@ -95,7 +95,6 @@ class ReviewCreate extends React.Component {
                 messages: [`Thanks, ${newReview.user.username}! Your review has been added.`]
             })
         }, error => {
-            debugger
                 this.setState({ messages: [error.message] })
         })
 

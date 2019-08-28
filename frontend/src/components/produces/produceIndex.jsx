@@ -7,7 +7,7 @@ import { Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/styles';
 import BounceLoader from 'react-spinners/BounceLoader';
-import ProduceDetail from './ProduceDetail';
+import ProduceDetail from './ProduceShow';
 
 
 const styles = theme => ({

@@ -70,7 +70,11 @@ export default {
             user {
                 username
             },
-            comments
+            comments,
+            produce {
+                id,
+                score
+            }
         }
     }
     `

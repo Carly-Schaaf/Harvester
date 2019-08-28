@@ -1,10 +1,7 @@
-import React from 'react';
-
 export default class MarkerManager {
-    constructor(map, cb) {
+    constructor(map) {
         this.map = map;
         this.markers = {};
-        this.setClickedMarker = cb;
         this.prevNode = "";
     }
 
@@ -15,13 +12,7 @@ export default class MarkerManager {
         });
         this.markers[produce.id] = marker;
         window.google.maps.event.addListener(marker, "click", (event) => {
-            if (this.prevNode !== "") {this.prevNode.style.backgroundColor = ""};
-            const node = document.getElementById(produce.id);
-            this.prevNode = node;
-            const scrollBox = document.getElementById("scroll-container");
-            node.style.backgroundColor = "rgba(102, 205, 170, .3)";
-            scrollBox.scroll({ top: node.offsetTop, behavior: 'smooth' })
-            this.setClickedMarker(node);
+            window.location.hash = `#/produces/${produce.id}`
         });
 
         marker.setMap(this.map);
@@ -47,3 +38,4 @@ export default class MarkerManager {
 
 
 }
+

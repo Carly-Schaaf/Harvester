@@ -78,6 +78,10 @@ export default {
                     id,
                     user {
                         username
+                    },
+                    produce {
+                        id,
+                        score
                     }
                 }
                     

@@ -60,7 +60,6 @@ class MainPage extends React.Component {
             produce: [],
             loading: true,
         };
-        this.clickedMarker = "";
     }
 
     async componentDidMount() {
@@ -109,7 +108,7 @@ class MainPage extends React.Component {
 
         const map = document.getElementById("map");
         this.map = new window.google.maps.Map(map, mapOptions);
-        this.MarkerManager = new MarkerManager(this.map, this.setClickedMarker.bind(this));
+        this.MarkerManager = new MarkerManager(this.map);
 
         window.google.maps.event.addListener(this.map, 'idle', async () => {
             const { north, south, east, west } = this.map.getBounds().toJSON();
@@ -123,10 +122,6 @@ class MainPage extends React.Component {
             this.fetchProduce(this.client);
         });
 
-    }
-
-    setClickedMarker(nodeId) {
-        this.clickedMarker = nodeId;
     }
 
     update(field) {
@@ -177,10 +172,10 @@ class MainPage extends React.Component {
         }
     }
 
-    handleClickAway() {
-        if (this.clickedMarker === "") return;
-        this.clickedMarker.style.backgroundColor = "";
-    }
+    // handleClickAway() {
+        // if (this.clickedMarker === "") return;
+        // this.clickedMarker.style.backgroundColor = "";
+    // }
 
 
     render() {
@@ -192,11 +187,11 @@ class MainPage extends React.Component {
                     return <div>
                         <div className="flex center top main-page-container"> 
                             <div className="flex center column map-flex-container">
-                                <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}>
+                                {/* <ClickAwayListener onClickAway={this.handleClickAway.bind(this)}> */}
                                     <div className="map-container">
                                         <div id="map"><ClipLoader css={loader} /></div>
                                     </div> 
-                                </ClickAwayListener>
+                                {/* </ClickAwayListener> */}
                             </div>
                             <div className="outer-produce-index-container">
                                 <Paper className={classes.paper}>
