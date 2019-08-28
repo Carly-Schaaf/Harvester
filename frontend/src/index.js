@@ -9,7 +9,7 @@ import { ApolloLink } from "apollo-link";
 import { onError } from "apollo-link-error";
 
 const link = new HttpLink({
-    uri: 'http://localhost:5000/graphql',
+    // uri: 'http://localhost:5000/graphql',
     // Additional fetch options like `credentials` or `headers`
     credentials: 'same-origin',
 });
