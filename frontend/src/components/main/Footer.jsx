@@ -10,14 +10,14 @@ const styles = theme => ({
         fontFamily: "'Roboto Mono', monospace",
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start", 
+        alignItems: "center", 
         marginLeft: "5%"
     },
     itemsContainerRight: {
         fontFamily: "'Roboto Mono', monospace",
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
+        alignItems: "center",
         marginRight: "5%"
     }
 });
