@@ -22,11 +22,11 @@ With Harvester, you can find and harvest local produce right in your own neighbo
 
 ![show](https://user-images.githubusercontent.com/39382120/63894649-03f84d00-c9a2-11e9-856d-186842ab7066.png)
 
-Leveraging GraphQL’s easy integration of multiple data sources, I incorporated the Wikipedia API in order to add photos and a description to user-entered produce, which entailed adding those fields and their respective resolve function to my GraphQL ProduceType (pictured below). 
+Leveraging GraphQL’s easy integration of multiple data sources, I incorporated the Wikipedia API in order to add photos and a description to user-entered produce. This entailed adding "Description" and "Thumbnail" fields and their respective resolve functions to my GraphQL ProduceType (pictured below). 
 
 ![produce-type](https://user-images.githubusercontent.com/39382120/63896304-85ea7500-c9a6-11e9-89df-62ca26140b3e.png)
 
-Users can also search by produce name and location. I implemented this search feature using Mongoose's regex method (pictured below) and the Google Geocoding API.
+Users can also search by produce name and location. I implemented the search-by-name feature using Mongoose's regex method (pictured below) and the search-by-location feature using the Google Geocoding API in order to turn user-entered input into coordinates.
 
 ![regex](https://user-images.githubusercontent.com/39382120/63896303-85ea7500-c9a6-11e9-972f-93dcd8121a09.png)
 
