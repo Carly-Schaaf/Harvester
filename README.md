@@ -26,7 +26,7 @@ Leveraging GraphQL’s easy integration of multiple data sources, I incorporated
 
 ![produce-type](https://user-images.githubusercontent.com/39382120/63896304-85ea7500-c9a6-11e9-89df-62ca26140b3e.png)
 
-Users can also search by produce name and location. I implemented the search-by-name feature using Mongoose's regex method (pictured below) and the search-by-location feature using the Google Geocoding API in order to turn user-entered input into coordinates.
+Users can also search produce by name and location. I implemented the search-by-name feature using Mongoose's regex method (pictured below) and the search-by-location feature using the Google Geocoding API in order to turn user-entered input into coordinates.
 
 ![regex](https://user-images.githubusercontent.com/39382120/63896303-85ea7500-c9a6-11e9-972f-93dcd8121a09.png)
 
