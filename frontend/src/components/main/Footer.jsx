@@ -19,9 +19,6 @@ const styles = theme => ({
         flexDirection: "column",
         alignItems: "flex-start",
         marginRight: "5%"
-    },
-    footerItems: {
-        textAlign: "initial"
     }
 });
 
@@ -37,7 +34,7 @@ const Footer = (props) => (
             <div className={props.classes.itemsContainerRight}>
             <div>Technologies:</div>
                 <div>React</div>
-                <div>Apollo-Client</div>
+                <div>Apollo</div>
                 <div>GraphQL</div>
                 <div>Node.js</div>
                 <div>Express</div>

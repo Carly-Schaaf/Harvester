@@ -36,7 +36,7 @@ const styles = theme => ({
     listItem: {
         "display": "flex",
         "flex-direction": "column",
-        width: "40%",
+        width: "36%",
         "padding-top": "0px"
     },
     icon: {
@@ -162,7 +162,7 @@ const ProduceShow = ({classes, client, produce, location}) => {
         return (
             <Paper id={id} key={Math.random()} square className={classes.paper}>
                 <div className={classes.root}>
-                    <ListItem className={classes.listItem} alignItems="flex-start">
+                    <ListItem className={`${classes.listItem} produce-show-list-item`} alignItems="flex-start">
                         <ListItemText primary={name} secondary={displayScore} />
                         <div>
                             <Button onClick={(e) => { 

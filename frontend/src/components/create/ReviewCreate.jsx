@@ -56,6 +56,10 @@ class ReviewCreate extends React.Component {
             user: ""
         }
     }
+    
+    componentDidMount() {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
 
     rendermessages() {
         if (!this.state.messages.length > 0) return null;

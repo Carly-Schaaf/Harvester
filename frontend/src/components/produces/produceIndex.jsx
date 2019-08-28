@@ -15,7 +15,7 @@ const styles = theme => ({
         fontFamily: "'Roboto Mono', monospace"
     },
     indexContainer: {
-        height: "64vh",
+        height: "71.5vh",
         overflow: "scroll",
         padding: "5%",
         "box-shadow": "none",

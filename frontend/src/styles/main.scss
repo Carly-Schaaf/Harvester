@@ -27,17 +27,26 @@
   }
 }
 
+.form-container {
+  @media screen and (max-width: 1010px) {
+    flex-direction: column;
+    > div {
+      margin-top: 10px;
+    }
+  }
+}
+
 #map {
     width: 100%;
     height: 100%;
 }
 
 .map-container {
-    height: 93vh;
+    height: 100%;
     width: 100%;
     justify-content: space-evenly;
     transition: align-items 500ms ease-in-out;
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 600px) {
       height: 50vh;
     }
 }
@@ -70,21 +79,25 @@
 .map-flex-container {
     margin-right: 2%;
     width: 33%;
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 600px) {
       margin-right: 0;
       width: 90vw;
+    }
+    @media screen and (max-width: 900px) and (min-width: 600px) {
+      width: 42%;
     }
 }
 
 .outer-produce-index-container {
   width: 40%;
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 600px) {
       width: 90vw;
     }
 }
 
 .main-page-container {
-   @media screen and (max-width: 400px) {
+  align-items: stretch;
+   @media screen and (max-width: 600px) {
         flex-direction: column;
         align-items: center;
     }

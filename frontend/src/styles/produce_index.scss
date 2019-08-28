@@ -10,6 +10,9 @@
     object-position: top;
     border-radius: 15%;
     margin: 0 14px;
+    @media screen and (max-width: 1010px) {
+        display: none;  
+    }
 }
 
 .title-features-container {
@@ -24,4 +27,15 @@
 
 .features-container {
     flex: auto;
+    @media screen and (max-width: 1010px) {
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;     
+  }
+}
+
+.produce-show-list-item {
+    @media screen and (max-width: 925px) {
+      width: 8em !important;
+    }
 }
