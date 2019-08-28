@@ -5,24 +5,37 @@ const Produce = require('../models/Produce')
 const produces = require('./produce_seeds');
 
 module.exports = seedReviews = async () => {
-    const nums = [1, 2, 3, 4, 5];
+    const maxReview = 5;
     await Review.deleteMany({}, (err, response) => { console.log(`Deleted ${response.deletedCount} reviews`)});
     return new Promise(async (res, rej) => {
         for (let index = 0; index <= 100; index++) {
 
             const randomUser = await User.findOne().skip(Math.floor(Math.random() * 10));
             const randomProduce = await Produce.findOne().skip(Math.floor(Math.random() * 146));
-            
+            let publicOrOwner;
+            if (randomProduce.public) {
+                publicOrOwner = "public";
+            } else {
+                publicOrOwner = "ownerPermission";
+            }
             const review = new Review({
-                    public: faker.random.boolean(),
-                    accessible: nums[index % nums.length],
-                    ownerPermission: nums[index % nums.length],
-                    quality: nums[index % nums.length],
-                    abundance: nums[index % nums.length],
-                    user: randomUser.id,
-                    produce: randomProduce.id,
-                    comments: faker.lorem.sentence()
-                })
+                [publicOrOwner]: ((Math.random() * 10).toFixed() % maxReview) + 1,
+                accessible: ((Math.random() * 10).toFixed() % maxReview) + 1,
+                quality: ((Math.random() * 10).toFixed() % maxReview) + 1,
+                abundance: ((Math.random() * 10).toFixed() % maxReview) + 1,
+                user: randomUser.id,
+                produce: randomProduce.id,
+                comments: ""
+            })
+            const positiveComments = [`Very high quality ${randomProduce.name}.`, `Lovely ${randomProduce.name}`, `Remarkable quality for side-of-the-highway ${randomProduce.name}`, `Such great ${randomProduce.name}`, `A very nice walk up to the site. Almost gone though, get it while you can!`];
+            const negativeComments = [`Absolutely terrible stuff. Really horrendous.`, `I wouldn't feed this to my dog.`, `Not edible in the slightest.`, `Don't waste your time. Horrible ${randomProduce.name}`];
+
+            const avgReview = ((review.accessible + review[publicOrOwner] + review.abundance + review.quality)/4).toFixed();
+            if (avgReview >= 3) {
+                review.comments = positiveComments[((Math.random() * 10) % positiveComments.length).toFixed()]
+            } else {
+                review.comments = negativeComments[((Math.random() * 10) % negativeComments.length).toFixed()]
+            }
             await review.save()
                     .then(async review => {
                             console.log(`Success review ${index} was saved`)
