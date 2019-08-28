@@ -1,7 +1,7 @@
 ## Harvester
 [Live Link](https://backyardharvest.herokuapp.com/#/)
 
-With Harvester, you can find and harvest local produce right in your own neighborhood. This project was built with Node.js, React, Apollo Client, GraphQL, and MongoDB.
+With Harvester, you can find and harvest local produce right in your own neighborhood. This project was built with Node.js, ReactJS, Apollo Client, GraphQL, and MongoDB.
 
 ![index](https://user-images.githubusercontent.com/39382120/63894648-03f84d00-c9a2-11e9-92f5-b34d2f8deb8b.png)
 
