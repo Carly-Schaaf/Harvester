@@ -55,6 +55,29 @@ class ProduceCreate extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const city = document.getElementById("produce-city-input");
+        const options = {
+            types: ['geocode']
+        };
+        const autocomplete = new window.google.maps.places.Autocomplete(city, options);
+        window.google.maps.event.addDomListener(window, "load", autocomplete);
+        let address;
+        autocomplete.addListener("place_changed", (e) => {
+            if (!autocomplete.getPlace().formatted_address) {
+                address = autocomplete.getPlace().name;
+                this.setState({
+                    city: address
+                });
+            } else {
+                address = autocomplete.getPlace().formatted_address;
+                this.setState({
+                    city: address
+                });
+            }
+        });
+    }
+
     rendermessages() {
         if (!this.state.messages.length > 0) return null;
         return this.state.messages.map((error, i) => {
@@ -145,6 +168,7 @@ class ProduceCreate extends React.Component {
                                     />
                                     <TextField
                                         required
+                                        id="produce-city-input"
                                         label="Where? Enter an address"
                                         margin="normal"
                                         fullWidth

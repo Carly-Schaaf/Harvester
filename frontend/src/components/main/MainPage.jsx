@@ -11,6 +11,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { withStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
+import { $ } from 'jquery';
 const { FETCH_ALL_PRODUCE } = Queries;
 
 const styles = theme => ({
@@ -66,6 +67,37 @@ class MainPage extends React.Component {
         this.props.history.push("/");
         await this.getLocation();
         this.setPosition();
+        const city = document.getElementById("outlined-city-input");
+        const options = {
+            types: ['geocode']
+        };
+        const autocomplete = new window.google.maps.places.Autocomplete(city, options);
+        window.google.maps.event.addDomListener(window, "load", autocomplete);
+        let address;
+        autocomplete.addListener("place_changed", (e) => {
+            if (!autocomplete.getPlace().formatted_address) {
+                address = autocomplete.getPlace().name;
+                this.setState({
+                    city: address
+                });
+            } else {
+                address = autocomplete.getPlace().formatted_address;
+                this.setState({
+                    city: address
+                });
+            }
+        });
+        // comment in to make enter feature work more seamlessly
+        // window.google.maps.event.addDomListener(city, 'keydown', (e) => {
+        //     e.preventDefault();
+        //     debugger
+        //     if (e.keyCode == 13 && $('.pac-container').length) {
+        //         this.setState({ city: city.value })
+        //     } else if (city === e.currentTarget) {
+        //         this.setState({ city: e.currentTarget.value })
+        //     }
+        // });
+        
     }
 
     getLocation() {
@@ -125,7 +157,7 @@ class MainPage extends React.Component {
     }
 
     update(field) {
-        return (e) => {this.setState({[field]: e.target.value})}
+        return (e) => this.setState({[field]: e.target.value})
     }
 
     fetchProduce(client) {
