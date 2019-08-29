@@ -17,7 +17,7 @@ With Harvester, you can find and harvest local produce right in your own neighbo
 
 ### External APIs:
 
-* Google Maps API & Google Geocoding API
+* Google Maps API, Google Geocoding API, Google Place's Autocomplete
 * Wikipedia API to fetch produce photos and description
 
 ![index](https://user-images.githubusercontent.com/39382120/63894648-03f84d00-c9a2-11e9-92f5-b34d2f8deb8b.png)
