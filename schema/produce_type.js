@@ -44,7 +44,6 @@ const ProduceType = new GraphQLObjectType({
                 async resolve(parentValue) {
                     return Produce.avgTotalReviewScore(parentValue.id);
                  }
-
         },
         user: {
             type: require('./user_type'),
